@@ -1,12 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Security.Principal;
 using System.Web;
 using System.Web.Mvc;
 using Itransition.Task1.DAL;
+using Itransition.Task1.DAL.Interfaces;
 using Itransition.Task1.DAL.Repositories;
-using Itransition.Task1.Domain;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 
@@ -14,18 +12,19 @@ namespace Itransition.Task1.Web.Controllers
 {
     public class HomeController : Controller
     {
+        private readonly IBankAccountRepository _bankAccountRepository;
+        public HomeController(IBankAccountRepository bankAccountRepository )
+        {
+            _bankAccountRepository = bankAccountRepository ?? throw new ArgumentNullException();
+        }
         public ActionResult Index()
         {
-            decimal? amount = null;
-            var bankAccountRepository = new BankAccountRepository(new AppDbContext());
-            var accountList = bankAccountRepository.GetAll().ToList();
+            decimal amount = 0;
+            var accountList = _bankAccountRepository.GetAll().ToList();
             if (System.Web.HttpContext.Current.User.Identity.IsAuthenticated)
             {
                 var user = System.Web.HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>().FindById(System.Web.HttpContext.Current.User.Identity.GetUserId());
                 amount = user.BankAccount.Amount;
-                //var account = user.BankAccount;
-                //account.Amount += 100;
-                //bankAccountRepository.Edit(account);
             }
             return View(amount);
         }
