@@ -208,6 +208,7 @@
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\PutMoneyModel.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\TransferMoneyModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -275,6 +276,7 @@
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\BankAccount\Put.cshtml" />
+    <Content Include="Views\BankAccount\Transfer.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

@@ -7,7 +7,6 @@ namespace Itransition.Task1.Web.Models
         [Required]
         [Display(Name = "Input sum")]
         [Range(typeof(decimal), "0", "100")]
-        //[RegularExpression(@"^[0-9]+$", ErrorMessage = "Incorrect input")]
         public decimal Amount { get; set; }
     }
 }

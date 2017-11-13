@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using Itransition.Task1.BL.Interfases;
+using System.Linq;
+using Itransition.Task1.BL.Interfaces;
 using Itransition.Task1.DAL;
 using Itransition.Task1.DAL.Interfaces;
 using Itransition.Task1.Domain;
@@ -20,7 +21,7 @@ namespace Itransition.Task1.BL.Services
 
         public IList<BankAccount> GetAllBankAccounts()
         {
-            throw new NotImplementedException();
+            return _bankAccountRepository.GetAll().ToList();
         }
 
         public BankAccount GetBankAccountById(int id)
@@ -46,9 +47,22 @@ namespace Itransition.Task1.BL.Services
             _bankAccountRepository.Edit(account);
         }
 
-        public void TransferMoney(ApplicationUser user, string money)
+        public void TransferMoney(ApplicationUser user, decimal money , string toAccount)
         {
-            throw new NotImplementedException();
+            var ownAccount = user.BankAccount;
+            if (ownAccount.Amount < money)
+            {
+                throw new ArgumentOutOfRangeException();
+            }
+            var destAccount = _bankAccountRepository.GetSingle(a => a.AccountNumber == toAccount);
+            if (destAccount == null)
+            {
+                throw new ArgumentNullException();
+            }
+            ownAccount.Amount -= money;
+            _bankAccountRepository.Edit(ownAccount);
+            destAccount.Amount += money;
+            _bankAccountRepository.Edit(destAccount);
         }
     }
 }

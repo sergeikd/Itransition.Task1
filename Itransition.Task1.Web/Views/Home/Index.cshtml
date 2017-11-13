@@ -4,7 +4,7 @@
 }
 @if (Request.IsAuthenticated)
 {
-    <h2>Your amount: @Model</h2>
+    <h2>Your amount: @Model.ToString()</h2>
     <h2>You can:</h2>
     <h2>@Html.ActionLink("Put money to your account", "Put", "BankAccount")</h2>
     <h2>@Html.ActionLink("Transfer money to another account", "Transfer", "BankAccount")</h2>
