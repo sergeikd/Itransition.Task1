@@ -10,6 +10,7 @@ namespace Itransition.Task1.DAL
     {
         protected override void Seed(AppDbContext context)
         {
+            var rnd = new Random();
             var userManager = new ApplicationUserManager(new UserStore<ApplicationUser>(context));
 
             var userList = new[] {
@@ -26,7 +27,7 @@ namespace Itransition.Task1.DAL
                     EmailConfirmed = true
                 };
                 userManager.Create(isentityUser, user.Password);
-                isentityUser.BankAccount = new BankAccount { AccountNumber = Guid.NewGuid().ToString().ToUpper(), Amount = 0 };
+                isentityUser.BankAccount = new BankAccount { AccountNumber = Guid.NewGuid().ToString().ToUpper(), Amount = rnd.Next(10)*10 };
             }
             context.SaveChanges();
         }
