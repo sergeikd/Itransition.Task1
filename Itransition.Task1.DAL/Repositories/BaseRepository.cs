@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Data.Entity;
+using System.Data.Entity.Migrations;
 using System.Linq;
 using System.Linq.Expressions;
 using Itransition.Task1.DAL.Interfaces;
@@ -40,21 +41,22 @@ namespace Itransition.Task1.DAL.Repositories
             return item;
         }
 
-        public void Add(T entity)
-        {
-            _context.Entry(entity).State = EntityState.Added;
-            _context.SaveChanges();
-        }
+        //public void Add(T entity)
+        //{
+        //    _context.Entry(entity).State = EntityState.Added;
+        //    _context.SaveChanges();
+        //}
 
-        public void Delete(T item)
-        {
-            _context.Entry(item).State = EntityState.Deleted;
-            _context.SaveChanges();
-        }
+        //public void Delete(T item)
+        //{
+        //    _context.Entry(item).State = EntityState.Deleted;
+        //    _context.SaveChanges();
+        //}
 
         public void Edit(T entity)
         {
-            _context.Entry<T>(entity).State = EntityState.Modified;
+            //_context.Entry<T>(entity).State = EntityState.Modified;
+            _context.Set<T>().AddOrUpdate(entity);
             _context.SaveChanges();
         }
     }

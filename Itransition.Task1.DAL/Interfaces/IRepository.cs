@@ -9,8 +9,8 @@ namespace Itransition.Task1.DAL.Interfaces
     {
         IQueryable<T> GetAll(params Expression<Func<T, object>>[] navigationProperties);
         T GetSingle(Func<T, bool> where, params Expression<Func<T, object>>[] navigationProperties);
-        void Add(T entity);
+        //void Add(T entity);
         void Edit(T entity);
-        void Delete(T entity);
+        //void Delete(T entity);
     }
 }

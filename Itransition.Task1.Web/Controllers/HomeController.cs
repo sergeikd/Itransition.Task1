@@ -23,6 +23,9 @@ namespace Itransition.Task1.Web.Controllers
             {
                 var user = System.Web.HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>().FindById(System.Web.HttpContext.Current.User.Identity.GetUserId());
                 amount = user.BankAccount.Amount;
+                //var account = user.BankAccount;
+                //account.Amount += 100;
+                //bankAccountRepository.Edit(account);
             }
             return View(amount);
         }
