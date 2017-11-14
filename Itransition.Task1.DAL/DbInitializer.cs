@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Data.Entity;
 using Itransition.Task1.Domain;
-using Microsoft.AspNet.Identity.EntityFramework;
-using Microsoft.AspNet.Identity;
 
 namespace Itransition.Task1.DAL
 {
@@ -11,23 +9,21 @@ namespace Itransition.Task1.DAL
         protected override void Seed(AppDbContext context)
         {
             var rnd = new Random();
-            var userManager = new ApplicationUserManager(new UserStore<ApplicationUser>(context));
 
             var userList = new[] {
-                            new { Name = "qqq@qqq.qq", Password = "qqqqqq" }, 
-                            new { Name = "aaa@aaa.aa", Password = "aaaaaa" },
-                            new { Name = "zzz@zzz.zz", Password = "zzzzzz" },
+                            new { Name = "qqq", Password = "qqq" }, 
+                            new { Name = "aaa", Password = "aaa" },
+                            new { Name = "zzz", Password = "zzz" },
             };
             foreach (var user in userList)
             {
-                var isentityUser = new ApplicationUser            
+                var newUser = new AppUser            
                 {
-                    Email = user.Name,
-                    UserName = user.Name,
-                    EmailConfirmed = true
+                    Name = user.Name,
+                    Password = user.Password
                 };
-                userManager.Create(isentityUser, user.Password);
-                isentityUser.BankAccount = new BankAccount { AccountNumber = Guid.NewGuid().ToString().ToUpper(), Amount = rnd.Next(10)*10 };
+                context.Users.Add(newUser);
+                newUser.BankAccount = new BankAccount { AccountNumber = Guid.NewGuid().ToString().ToUpper(), Amount = rnd.Next(10)*10 };
             }
             context.SaveChanges();
         }

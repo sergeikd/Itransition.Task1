@@ -1,25 +1,26 @@
 ﻿using System;
-using System.Web;
 using System.Web.Mvc;
-using Itransition.Task1.DAL.Interfaces;
-using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.Owin;
+using Itransition.Task1.BL.Interfaces;
 
 namespace Itransition.Task1.Web.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly IBankAccountRepository _bankAccountRepository;
-        public HomeController(IBankAccountRepository bankAccountRepository )
+        private readonly IBankAccountService _bankAccountService;
+        private readonly IUserService _userService; 
+
+        public HomeController(IBankAccountService bankAccountService, IUserService userService)
         {
-            _bankAccountRepository = bankAccountRepository ?? throw new ArgumentNullException();
+            _bankAccountService = bankAccountService ?? throw new ArgumentNullException();
+            _userService = userService ?? throw new ArgumentNullException();
         }
         public ActionResult Index()
         {
             decimal amount = 0;
             if (System.Web.HttpContext.Current.User.Identity.IsAuthenticated)
             {
-                var user = System.Web.HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>().FindById(System.Web.HttpContext.Current.User.Identity.GetUserId());
+                var currentName = System.Web.HttpContext.Current.User.Identity.Name;
+                var user = _userService.GetCurrentUser(currentName);
                 amount = user.BankAccount.Amount;
             }
             return View(amount);

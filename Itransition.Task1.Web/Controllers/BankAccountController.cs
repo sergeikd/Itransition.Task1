@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using Itransition.Task1.BL.Interfaces;
 using Itransition.Task1.Web.Models;
-using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.Owin;
+
 
 namespace Itransition.Task1.Web.Controllers
 {
@@ -14,15 +12,16 @@ namespace Itransition.Task1.Web.Controllers
     public class BankAccountController : Controller
     {
         private readonly IBankAccountService _bankAccountService;
-        public BankAccountController(IBankAccountService bankAccountService)
+        private readonly IUserService _userService;
+
+        public BankAccountController(IBankAccountService bankAccountService, IUserService userService)
         {
             _bankAccountService = bankAccountService ?? throw new ArgumentNullException();
+            _userService = userService ?? throw new ArgumentNullException();
         }
         public ActionResult Put()
         {
-            var model = new PutMoneyModel();
-            var user = System.Web.HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>().FindById(System.Web.HttpContext.Current.User.Identity.GetUserId());
-            model.Amount = user.BankAccount.Amount;
+            var model = new PutMoneyModel{Amount = _userService.GetUserAmount(User.Identity.Name)};
             return View(model);
         }
 
@@ -30,22 +29,19 @@ namespace Itransition.Task1.Web.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Put(PutMoneyModel model)
         {
-            var user = System.Web.HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>().FindById(System.Web.HttpContext.Current.User.Identity.GetUserId());
             if (ModelState.IsValid)
             {
-                user = System.Web.HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>().FindById(System.Web.HttpContext.Current.User.Identity.GetUserId());
-
-                _bankAccountService.PutMoney(user, model.Amount);
+                _bankAccountService.PutMoney(User.Identity.Name, model.Amount);
                 return RedirectToAction("Put");
             }
-            model.Amount = user.BankAccount.Amount;
+            model.Amount = _userService.GetUserAmount(User.Identity.Name);
             return View(model);
         }
 
         public ActionResult Transfer()
         {
             var model = new TransferMoneyModel();
-            var user = System.Web.HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>().FindById(System.Web.HttpContext.Current.User.Identity.GetUserId());
+            var user = _userService.GetCurrentUser(User.Identity.Name);
             model.Amount = user.BankAccount.Amount;
             model.Accounts = PrepareCompaniesDropDownList(user.BankAccount.AccountNumber);
             return View(model);
@@ -55,7 +51,7 @@ namespace Itransition.Task1.Web.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Transfer(TransferMoneyModel model)
         {
-            var user = System.Web.HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>().FindById(System.Web.HttpContext.Current.User.Identity.GetUserId());
+            var user = _userService.GetCurrentUser(User.Identity.Name);
             if (ModelState.IsValid)
             {
                 try

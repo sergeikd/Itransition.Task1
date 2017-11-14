@@ -2,7 +2,7 @@
 @{
     ViewBag.Title = "Home Page";
 }
-@if (Request.IsAuthenticated)
+@if (User.Identity.IsAuthenticated)
 {
     <h2>Your amount: @Model.ToString()</h2>
     <h2>You can:</h2>
