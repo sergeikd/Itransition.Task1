@@ -8,6 +8,6 @@ namespace Itransition.Task1.BL.Interfaces
         IList<BankAccount> GetAllBankAccounts();
         BankAccount GetBankAccountById(int id);
         void PutMoney(string userName, decimal money);
-        void TransferMoney(AppUser user, decimal money, string toAccount);
+        void TransferMoney(string userName, decimal money, string toAccount);
     }
 }

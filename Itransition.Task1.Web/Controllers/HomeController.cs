@@ -6,38 +6,20 @@ namespace Itransition.Task1.Web.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly IBankAccountService _bankAccountService;
         private readonly IUserService _userService; 
 
-        public HomeController(IBankAccountService bankAccountService, IUserService userService)
+        public HomeController(IUserService userService)
         {
-            _bankAccountService = bankAccountService ?? throw new ArgumentNullException();
             _userService = userService ?? throw new ArgumentNullException();
         }
         public ActionResult Index()
         {
             decimal amount = 0;
-            if (System.Web.HttpContext.Current.User.Identity.IsAuthenticated)
+            if (User.Identity.IsAuthenticated)
             {
-                var currentName = System.Web.HttpContext.Current.User.Identity.Name;
-                var user = _userService.GetCurrentUser(currentName);
-                amount = user.BankAccount.Amount;
+                amount = _userService.GetUserAmount(User.Identity.Name);
             }
             return View(amount);
-        }
-
-        public ActionResult About()
-        {
-            ViewBag.Message = "Your application description page.";
-
-            return View();
-        }
-
-        public ActionResult Contact()
-        {
-            ViewBag.Message = "Your contact page.";
-
-            return View();
         }
     }
 }

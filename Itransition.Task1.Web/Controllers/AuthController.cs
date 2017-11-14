@@ -54,8 +54,7 @@ namespace Itransition.Task1.Web.Controllers
             {
                 var user = _userService.GetAllUsers().FirstOrDefault(u => u.Name == model.Name);
                 if (user == null)
-                {
-                    //Create new User                       
+                {                      
                     _userService.RegisterUser(new AppUser{Name = model.Name, Password = model.Password});
                     FormsAuthentication.SetAuthCookie(model.Name, true);
                     return RedirectToAction("Index", "Home");

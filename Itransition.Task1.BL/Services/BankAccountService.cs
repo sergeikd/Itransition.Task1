@@ -35,9 +35,9 @@ namespace Itransition.Task1.BL.Services
             _bankAccountRepository.Edit(account);
         }
 
-        public void TransferMoney(AppUser user, decimal money , string toAccount)
+        public void TransferMoney(string userName, decimal money , string toAccount)
         {
-            var ownAccount = user.BankAccount;
+            var ownAccount = _userRepository.GetSingle(u => u.Name == userName).BankAccount;
             if (ownAccount.Amount < money)
             {
                 throw new ArgumentOutOfRangeException();
