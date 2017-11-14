@@ -28,7 +28,7 @@ namespace Itransition.Task1.Web.Infrastructure.CastleWindsor
                     $"The controller for path '{requestContext.HttpContext.Request.Path}' could not be found.");
             }
             var iController = (IController)_kernel.Resolve(controllerType);
-
+            ((Controller)iController).ActionInvoker = _kernel.Resolve<IActionInvoker>();
             return iController;
         }
     }

@@ -30,15 +30,15 @@ namespace Itransition.Task1.Web.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Put(PutMoneyModel model)
         {
-            //var user = System.Web.HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>().FindById(System.Web.HttpContext.Current.User.Identity.GetUserId());
+            var user = System.Web.HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>().FindById(System.Web.HttpContext.Current.User.Identity.GetUserId());
             if (ModelState.IsValid)
             {
-                var user = System.Web.HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>().FindById(System.Web.HttpContext.Current.User.Identity.GetUserId());
+                user = System.Web.HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>().FindById(System.Web.HttpContext.Current.User.Identity.GetUserId());
 
                 _bankAccountService.PutMoney(user, model.Amount);
                 return RedirectToAction("Put");
             }
-            //model.Amount = user.BankAccount.Amount;
+            model.Amount = user.BankAccount.Amount;
             return View(model);
         }
 

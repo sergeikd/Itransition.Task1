@@ -203,6 +203,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Infrastructure\CastleWindsor\WindsorActionInvoker.cs" />
     <Compile Include="Infrastructure\CastleWindsor\WindsorControllerFactory.cs" />
     <Compile Include="Infrastructure\CastleWindsor\WindsorInstallers.cs" />
     <Compile Include="Models\AccountViewModels.cs" />

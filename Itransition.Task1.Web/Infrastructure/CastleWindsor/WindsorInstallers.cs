@@ -13,18 +13,21 @@ namespace Itransition.Task1.Web.Infrastructure.CastleWindsor
         
         public void Install(IWindsorContainer container, IConfigurationStore store)
         {
-            //Controllers insataller
+            //Controllers installer
             container.Register(Classes.FromThisAssembly()
                 .BasedOn<IController>()
                 .LifestyleTransient());
 
-            //Servces installer
+            //Custom Action Inviker installer
+            container.Register(Component.For<IActionInvoker>().ImplementedBy<WindsorActionInvoker>().LifeStyle.Transient);
+
+            //Serivces installer
             container.Register(Classes.FromAssemblyContaining(typeof(BankAccountService))
                 .Where(x => x.Name.EndsWith("Service"))
                 .WithServiceAllInterfaces()
                 .LifestylePerWebRequest());
 
-            //Repositories insataller
+            //Repositories installer
             container.Register(Classes.FromAssemblyContaining(typeof (BaseRepository<>))
             .Where(x => x.Name.EndsWith("Repository"))
             .WithServiceAllInterfaces()

@@ -57,7 +57,7 @@ namespace Itransition.Task1.DAL.Repositories
         {
             //_context.Entry<T>(entity).State = EntityState.Modified;
             _context.Set<T>().AddOrUpdate(entity);
-            _context.SaveChanges();
+            //_context.SaveChanges();
         }
     }
 }
