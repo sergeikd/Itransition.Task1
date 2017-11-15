@@ -53,6 +53,12 @@
     <Reference Include="Castle.Windsor, Version=4.0.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
       <HintPath>..\packages\Castle.Windsor.4.1.0\lib\net45\Castle.Windsor.dll</HintPath>
     </Reference>
+    <Reference Include="FluentValidation, Version=7.0.0.0, Culture=neutral, PublicKeyToken=7de548da2fbae0f0, processorArchitecture=MSIL">
+      <HintPath>..\packages\FluentValidation.7.2.1\lib\net45\FluentValidation.dll</HintPath>
+    </Reference>
+    <Reference Include="FluentValidation.Mvc, Version=7.0.0.0, Culture=neutral, PublicKeyToken=7de548da2fbae0f0, processorArchitecture=MSIL">
+      <HintPath>..\packages\FluentValidation.Mvc5.7.2.1\lib\net45\FluentValidation.Mvc.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=1.0.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.7\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
     </Reference>
@@ -163,7 +169,11 @@
     </Compile>
     <Compile Include="Infrastructure\CastleWindsor\WindsorActionInvoker.cs" />
     <Compile Include="Infrastructure\CastleWindsor\WindsorControllerFactory.cs" />
+    <Compile Include="Infrastructure\CastleWindsor\WindsorFluentValidatorFactory.cs" />
     <Compile Include="Infrastructure\CastleWindsor\WindsorInstallers.cs" />
+    <Compile Include="Infrastructure\CastleWindsor\WindsorModelValidator.cs" />
+    <Compile Include="Infrastructure\Validators\PutMoneyModelValidator.cs" />
+    <Compile Include="Infrastructure\Validators\TransferMoneyModelValidator.cs" />
     <Compile Include="Models\LoginModel.cs" />
     <Compile Include="Models\PutMoneyModel.cs" />
     <Compile Include="Models\RegisterModel.cs" />

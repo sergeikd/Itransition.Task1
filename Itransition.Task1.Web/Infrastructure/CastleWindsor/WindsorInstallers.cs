@@ -2,6 +2,7 @@
 using Castle.MicroKernel.Registration;
 using Castle.MicroKernel.SubSystems.Configuration;
 using Castle.Windsor;
+using FluentValidation;
 using Itransition.Task1.DAL;
 using Itransition.Task1.BL.Services;
 using Itransition.Task1.DAL.Repositories;
@@ -18,8 +19,10 @@ namespace Itransition.Task1.Web.Infrastructure.CastleWindsor
                 .BasedOn<IController>()
                 .LifestyleTransient());
 
-            //Custom Action Inviker installer
-            container.Register(Component.For<IActionInvoker>().ImplementedBy<WindsorActionInvoker>().LifeStyle.Transient);
+            //Custom Action Invoker installer
+            container.Register(Component.For<IActionInvoker>()
+                .ImplementedBy<WindsorActionInvoker>()
+                .LifeStyle.Transient);
 
             //Serivces installer
             container.Register(Classes.FromAssemblyContaining(typeof(BankAccountService))
@@ -29,13 +32,18 @@ namespace Itransition.Task1.Web.Infrastructure.CastleWindsor
 
             //Repositories installer
             container.Register(Classes.FromAssemblyContaining(typeof (BaseRepository<>))
-            .Where(x => x.Name.EndsWith("Repository"))
-            .WithServiceAllInterfaces()
+                .Where(x => x.Name.EndsWith("Repository"))
+                .WithServiceAllInterfaces()
                 .LifestylePerWebRequest());
 
             //DbContext installer
             container.Register(Component.For<AppDbContext>().LifeStyle.PerWebRequest);
-        }
 
+            //FluentValidator installer
+            container.Register(Classes.FromThisAssembly()
+                .BasedOn(typeof(IValidator<>))
+                .WithService.Base()
+                .LifestyleTransient());
+        }
     }
 }

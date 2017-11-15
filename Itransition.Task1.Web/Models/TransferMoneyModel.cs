@@ -1,16 +1,18 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Web.Mvc;
+using FluentValidation.Attributes;
+using Itransition.Task1.Web.Infrastructure.Validators;
 
 namespace Itransition.Task1.Web.Models
 {
+    [Validator(typeof(TransferMoneyModelValidator))]
     public class TransferMoneyModel
     {
-        [Required]
         [Display(Name = "Input sum")]
-        [Range(typeof(decimal), "0", "100")]
-        public decimal Amount { get; set; }
+        public decimal TransferMoney { get; set; }
 
+        public decimal OwnMoney { get; set; }
         public string SelectedAccount{ get; set; }
 
         [Display(Name = "Select account")]
