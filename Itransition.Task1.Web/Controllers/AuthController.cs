@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using System.Web.Mvc;
 using System.Web.Security;
 using Itransition.Task1.BL.Interfaces;
@@ -25,21 +24,9 @@ namespace Itransition.Task1.Web.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Login(LoginModel model)
         {
-            if (ModelState.IsValid)
-            {
-                var user = _userService.GetAllUsers().FirstOrDefault(u => u.Name == model.Name && u.Password == model.Password);
-                if (user != null)
-                {
-                    FormsAuthentication.SetAuthCookie(model.Name, true);
-                    return RedirectToAction("Index", "Home");
-                }
-                else
-                {
-                    ModelState.AddModelError("", "No user with such login or password is wrong");
-                }
-            }
-            
-            return View(model);
+            if (!ModelState.IsValid) return View(model);
+            FormsAuthentication.SetAuthCookie(model.Name, true);
+            return RedirectToAction("Index", "Home");
         }
 
         public ActionResult Register()
@@ -50,22 +37,10 @@ namespace Itransition.Task1.Web.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Register(RegisterModel model)
         {
-            if (ModelState.IsValid)
-            {
-                var user = _userService.GetAllUsers().FirstOrDefault(u => u.Name == model.Name);
-                if (user == null)
-                {                      
-                    _userService.RegisterUser(new AppUser{Name = model.Name, Password = model.Password});
-                    FormsAuthentication.SetAuthCookie(model.Name, true);
-                    return RedirectToAction("Index", "Home");
-                }
-                else
-                {
-                    ModelState.AddModelError("", "User with the same name already exists");
-                }
-            }
-
-            return View(model);
+            if (!ModelState.IsValid) return View(model);
+            _userService.RegisterUser(new AppUser { Name = model.Name, Password = model.Password });
+            FormsAuthentication.SetAuthCookie(model.Name, true);
+            return RedirectToAction("Index", "Home");
         }
         public ActionResult Logoff()
         {

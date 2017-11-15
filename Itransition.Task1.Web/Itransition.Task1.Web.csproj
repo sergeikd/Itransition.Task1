@@ -172,7 +172,9 @@
     <Compile Include="Infrastructure\CastleWindsor\WindsorFluentValidatorFactory.cs" />
     <Compile Include="Infrastructure\CastleWindsor\WindsorInstallers.cs" />
     <Compile Include="Infrastructure\CastleWindsor\WindsorModelValidator.cs" />
+    <Compile Include="Infrastructure\Validators\LoginModelValidator.cs" />
     <Compile Include="Infrastructure\Validators\PutMoneyModelValidator.cs" />
+    <Compile Include="Infrastructure\Validators\RegisterModelValidator.cs" />
     <Compile Include="Infrastructure\Validators\TransferMoneyModelValidator.cs" />
     <Compile Include="Models\LoginModel.cs" />
     <Compile Include="Models\PutMoneyModel.cs" />

@@ -20,14 +20,16 @@ namespace Itransition.Task1.Web.Infrastructure.Validators
                 .Must(IsMoneyEnough).WithMessage("Isufficient money");
 
         }
+
+        private static bool IsInRange(decimal amount)
+        {
+            return amount > 0 && amount <= 100;
+        }
+
         private bool IsMoneyEnough(decimal amount)
         {
             var currentAmount = _userService.GetUserAmount(_currentUserName);
             return currentAmount >= amount;
-        }
-        private static bool IsInRange(decimal amount)
-        {
-            return amount > 0 && amount <= 100;
         }
     }
 }

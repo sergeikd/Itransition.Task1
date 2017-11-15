@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using Itransition.Task1.BL.Interfaces;
@@ -46,29 +45,21 @@ namespace Itransition.Task1.Web.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Transfer(TransferMoneyModel model)
         {
-
-            if (ModelState.IsValid)
-            {
-                _bankAccountService.TransferMoney(User.Identity.Name, model.TransferMoney, model.SelectedAccount);
-                return RedirectToAction("Transfer");
-            }
-            return View(DefaultTransferMoneyModel());
-        }
-
-        private List<SelectListItem> PrepareAccountsDropDownList()
-        {
-            var currentUser = _userService.GetCurrentUser(User.Identity.Name);
-            var accounts = _bankAccountService.GetAllBankAccounts().Where(x => x.AccountNumber != currentUser.BankAccount.AccountNumber); //Remove own account from the list
-            return accounts.Select(account => new SelectListItem { Text = account.AccountNumber}).ToList();
+            if (!ModelState.IsValid) return View(DefaultTransferMoneyModel());
+            _bankAccountService.TransferMoney(User.Identity.Name, model.TransferMoney, model.SelectedAccount);
+            return RedirectToAction("Transfer");
         }
 
         private TransferMoneyModel DefaultTransferMoneyModel()
         {
+            var currentUser = _userService.GetCurrentUser(User.Identity.Name);
+            var accounts = _bankAccountService.GetAllBankAccounts().Where(x => x.AccountNumber != currentUser.BankAccount.AccountNumber); //Remove own account from the list
+
             var model = new TransferMoneyModel
             {
                 OwnMoney = _userService.GetUserAmount(User.Identity.Name),
                 TransferMoney = 0,
-                Accounts = PrepareAccountsDropDownList()
+                Accounts = accounts.Select(account => new SelectListItem { Text = account.AccountNumber }).ToList()
             };
             return model;
         }
