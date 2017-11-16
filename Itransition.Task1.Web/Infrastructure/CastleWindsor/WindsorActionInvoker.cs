@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Web.Mvc;
 using System.Web.Mvc.Async;
 using Itransition.Task1.DAL;
@@ -11,6 +12,7 @@ namespace Itransition.Task1.Web.Infrastructure.CastleWindsor
 
         public WindsorActionInvoker(AppDbContext context)
         {
+            if (context == null) throw new ArgumentNullException();
             _context = context;
         }
 

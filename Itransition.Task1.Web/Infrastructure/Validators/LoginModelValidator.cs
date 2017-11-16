@@ -10,9 +10,10 @@ namespace Itransition.Task1.Web.Infrastructure.Validators
     {
         private readonly IUserService _userService;
 
-        public LoginModelValidator(IBankAccountService bankAccountService, IUserService userService)
+        public LoginModelValidator(IUserService userService)
         {
-            _userService = userService ?? throw new ArgumentNullException();
+            if (userService == null) throw new ArgumentNullException();
+            _userService = userService;
 
             RuleFor(u => u.Name).NotEmpty();
             RuleFor(u => u.Password).NotEmpty();

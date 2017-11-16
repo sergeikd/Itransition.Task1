@@ -10,7 +10,8 @@ namespace Itransition.Task1.Web.Controllers
 
         public HomeController(IUserService userService)
         {
-            _userService = userService ?? throw new ArgumentNullException();
+            if(userService == null) throw new ArgumentNullException();
+            _userService = userService;
         }
         public ActionResult Index()
         {

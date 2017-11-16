@@ -14,8 +14,10 @@ namespace Itransition.Task1.Web.Controllers
 
         public BankAccountController(IBankAccountService bankAccountService, IUserService userService)
         {
-            _bankAccountService = bankAccountService ?? throw new ArgumentNullException();
-            _userService = userService ?? throw new ArgumentNullException();
+            if (userService == null) throw new ArgumentNullException();
+            if (bankAccountService == null) throw new ArgumentNullException();
+            _userService = userService;
+            _bankAccountService = bankAccountService;
         }
         public ActionResult Put()
         {

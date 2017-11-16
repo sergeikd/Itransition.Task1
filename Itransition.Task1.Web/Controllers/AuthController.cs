@@ -11,9 +11,10 @@ namespace Itransition.Task1.Web.Controllers
     {
         private readonly IUserService _userService;
 
-        public AuthController(IBankAccountService bankAccountService, IUserService userService)
+        public AuthController(IUserService userService)
         {
-            _userService = userService ?? throw new ArgumentNullException();
+            if (userService == null) throw new ArgumentNullException();
+            _userService = userService;
         }
         public ActionResult Login()
         {

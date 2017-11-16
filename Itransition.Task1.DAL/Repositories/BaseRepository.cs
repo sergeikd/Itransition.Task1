@@ -14,7 +14,8 @@ namespace Itransition.Task1.DAL.Repositories
 
         public BaseRepository(AppDbContext context)
         {
-            _context = context ?? throw new ArgumentNullException();
+            if(context == null) throw new ArgumentNullException();
+            _context = context;
         }
 
         public IQueryable<T> GetAll(params Expression<Func<T, object>>[] navigationProperties)

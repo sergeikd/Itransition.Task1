@@ -12,7 +12,8 @@ namespace Itransition.Task1.Web.Infrastructure.Validators
 
         public RegisterModelValidator(IBankAccountService bankAccountService, IUserService userService)
         {
-            _userService = userService ?? throw new ArgumentNullException();
+            if (userService == null) throw new ArgumentNullException();
+            _userService = userService;
 
             RuleFor(u => u.Name).NotEmpty();
             RuleFor(u => u.Password).NotEmpty();

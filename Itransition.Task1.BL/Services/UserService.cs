@@ -12,7 +12,8 @@ namespace Itransition.Task1.BL.Services
         private readonly IUserRepository _userRepository;
         public UserService(IUserRepository userRepository)
         {
-            _userRepository = userRepository ?? throw new ArgumentNullException();
+            if(userRepository == null) throw new ArgumentNullException();
+            _userRepository = userRepository;
         }
         public IList<AppUser> GetAllUsers()
         {

@@ -14,8 +14,10 @@ namespace Itransition.Task1.BL.Services
         private readonly IUserRepository _userRepository;
         public BankAccountService(IBankAccountRepository bankAccountRepository, IUserRepository userRepository)
         {
-            _bankAccountRepository = bankAccountRepository ?? throw new ArgumentNullException();
-            _userRepository = userRepository ?? throw new ArgumentNullException();
+            if (bankAccountRepository == null) throw new ArgumentNullException();
+            if (userRepository == null) throw new ArgumentNullException();
+            _bankAccountRepository = bankAccountRepository;
+            _userRepository = userRepository;
         }
 
         public IList<BankAccount> GetAllBankAccounts()
