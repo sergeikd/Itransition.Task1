@@ -32,14 +32,14 @@ namespace Itransition.Task1.BL.Services
 
         public void PutMoney(string userName, decimal money)
         {
-            var account = _userRepository.GetSingle(u => u.Name == userName).BankAccount;
+            var account = _userRepository.GetSingle(u => u.Email == userName).BankAccount;
             account.Amount += money;
             _bankAccountRepository.Edit(account);
         }
 
         public void TransferMoney(string userName, decimal money , string toAccount)
         {
-            var ownAccount = _userRepository.GetSingle(u => u.Name == userName).BankAccount;
+            var ownAccount = _userRepository.GetSingle(u => u.Email == userName).BankAccount;
             if (ownAccount.Amount < money)
             {
                 throw new ArgumentOutOfRangeException();

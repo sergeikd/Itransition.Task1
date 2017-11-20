@@ -22,12 +22,12 @@ namespace Itransition.Task1.BL.Services
 
         public AppUser GetCurrentUser(string name)
         {
-            return _userRepository.GetSingle(u => u.Name == name);
+            return _userRepository.GetSingle(u => u.Email == name);
         }
 
         public decimal GetUserAmount(string name)
         {
-            return _userRepository.GetSingle(u => u.Name == name).BankAccount.Amount;
+            return _userRepository.GetSingle(u => u.Email == name).BankAccount.Amount;
         }
 
         public AppUser GetUserById(int id)

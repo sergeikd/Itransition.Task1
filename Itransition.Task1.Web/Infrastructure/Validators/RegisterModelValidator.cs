@@ -15,7 +15,7 @@ namespace Itransition.Task1.Web.Infrastructure.Validators
             if (userService == null) throw new ArgumentNullException();
             _userService = userService;
 
-            RuleFor(u => u.Name).NotEmpty();
+            RuleFor(u => u.Email).NotEmpty().EmailAddress();
             RuleFor(u => u.Password).NotEmpty();
             RuleFor(u => u.ConfirmPassword).NotEmpty();
             RuleFor(u => u).Must(CheckPasswords).WithMessage("Password and Confirm Password are not equal");
@@ -28,7 +28,7 @@ namespace Itransition.Task1.Web.Infrastructure.Validators
         }
         private bool IsExist(RegisterModel registerModel)
         {
-            var user = _userService.GetAllUsers().FirstOrDefault(u => u.Name == registerModel.Name);
+            var user = _userService.GetAllUsers().FirstOrDefault(u => u.Email == registerModel.Email);
             return user == null;
         }
     }

@@ -16,33 +16,62 @@ namespace Itransition.Task1.Web.Controllers
             if (userService == null) throw new ArgumentNullException();
             _userService = userService;
         }
-        public ActionResult Login()
+        //public ActionResult Login()
+        //{
+        //    return View();
+        //}
+        public ActionResult SignIn()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult SignIn(LoginModel model)
+        {
+            if (!ModelState.IsValid) return View(model);
+            FormsAuthentication.SetAuthCookie(model.Email, true);
+            return RedirectToAction("Index", "Home");
+        }
+        
+
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public ActionResult Login(LoginModel model)
+        //{
+        //    if (!ModelState.IsValid) return View(model);
+        //    FormsAuthentication.SetAuthCookie(model.Email, true);
+        //    return RedirectToAction("Index", "Home");
+        //}
+
+        //public ActionResult Register()
+        //{
+        //    return View();
+        //}
+
+        public ActionResult SignUp()
         {
             return View();
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Login(LoginModel model)
+        public ActionResult SignUp(RegisterModel model)
         {
             if (!ModelState.IsValid) return View(model);
-            FormsAuthentication.SetAuthCookie(model.Name, true);
+            _userService.RegisterUser(new AppUser { Email = model.Email, Password = model.Password });
+            FormsAuthentication.SetAuthCookie(model.Email, true);
             return RedirectToAction("Index", "Home");
         }
 
-        public ActionResult Register()
-        {
-            return View();
-        }
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Register(RegisterModel model)
-        {
-            if (!ModelState.IsValid) return View(model);
-            _userService.RegisterUser(new AppUser { Name = model.Name, Password = model.Password });
-            FormsAuthentication.SetAuthCookie(model.Name, true);
-            return RedirectToAction("Index", "Home");
-        }
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public ActionResult Register(RegisterModel model)
+        //{
+        //    if (!ModelState.IsValid) return View(model);
+        //    _userService.RegisterUser(new AppUser { Email = model.Email, Password = model.Password });
+        //    FormsAuthentication.SetAuthCookie(model.Email, true);
+        //    return RedirectToAction("Index", "Home");
+        //}
         public ActionResult Logoff()
         {
             FormsAuthentication.SignOut();

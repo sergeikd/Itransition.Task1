@@ -11,15 +11,15 @@ namespace Itransition.Task1.DAL
             var rnd = new Random();
 
             var userList = new[] {
-                            new { Name = "qqq", Password = "qqq" }, 
-                            new { Name = "aaa", Password = "aaa" },
-                            new { Name = "zzz", Password = "zzz" },
+                            new { Email = "qqq@qqq.qq", Password = "qqq" }, 
+                            new { Email = "aaa@aaa.aa", Password = "aaa" },
+                            new { Email = "zzz@zzz.zz", Password = "zzz" },
             };
             foreach (var user in userList)
             {
                 var newUser = new AppUser            
                 {
-                    Name = user.Name,
+                    Email = user.Email,
                     Password = user.Password
                 };
                 context.Users.Add(newUser);

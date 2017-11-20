@@ -15,13 +15,13 @@ namespace Itransition.Task1.Web.Infrastructure.Validators
             if (userService == null) throw new ArgumentNullException();
             _userService = userService;
 
-            RuleFor(u => u.Name).NotEmpty();
+            RuleFor(u => u.Email).NotEmpty().EmailAddress();
             RuleFor(u => u.Password).NotEmpty();
             RuleFor(u => u).Must(IsExist).WithMessage("No user with such login or password is wrong");
         }
         private bool IsExist(LoginModel loginModel)
         {
-            var user = _userService.GetAllUsers().FirstOrDefault(u => u.Name == loginModel.Name && u.Password == loginModel.Password);
+            var user = _userService.GetAllUsers().FirstOrDefault(u => u.Email == loginModel.Email && u.Password == loginModel.Password);
             return user != null;
         }
     }
