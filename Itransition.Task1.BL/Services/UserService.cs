@@ -1,9 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Itransition.Task1.BL.Interfaces;
+﻿using Itransition.Task1.BL.Interfaces;
 using Itransition.Task1.DAL.Interfaces;
 using Itransition.Task1.Domain;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Itransition.Task1.BL.Services
 {
@@ -39,6 +39,13 @@ namespace Itransition.Task1.BL.Services
         {
             user.BankAccount = new BankAccount{AccountNumber = Guid.NewGuid().ToString(), Amount = 0};
             _userRepository.Add(user);
+        }
+
+        public void ChangePassword(string email, string password)
+        {
+            var user = _userRepository.GetSingle(u => u.Email == email);
+            user.Password = password;
+            _userRepository.Edit(user);
         }
     }
 }

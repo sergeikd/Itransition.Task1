@@ -1,4 +1,6 @@
-﻿namespace Itransition.Task1.Domain
+﻿using System.Collections.Generic;
+
+namespace Itransition.Task1.Domain
 {
     public class AppUser : Entity
     {

@@ -10,5 +10,8 @@ namespace Itransition.Task1.BL.Interfaces
         AppUser GetCurrentUser(string name);
         decimal GetUserAmount(string name);
         void RegisterUser(AppUser user);
+        void ChangePassword(string email, string password);
+
+
     }
 }

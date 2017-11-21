@@ -164,6 +164,7 @@
     <Compile Include="Controllers\AuthController.cs" />
     <Compile Include="Controllers\BankAccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\PasswordController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -175,23 +176,24 @@
     <Compile Include="Infrastructure\Validators\LoginModelValidator.cs" />
     <Compile Include="Infrastructure\Validators\PutMoneyModelValidator.cs" />
     <Compile Include="Infrastructure\Validators\RegisterModelValidator.cs" />
+    <Compile Include="Infrastructure\Validators\ForgotPasswordModelValidator.cs" />
+    <Compile Include="Infrastructure\Validators\ResetPasswordModelValidator.cs" />
     <Compile Include="Infrastructure\Validators\TransferMoneyModelValidator.cs" />
     <Compile Include="Models\LoginModel.cs" />
     <Compile Include="Models\PutMoneyModel.cs" />
     <Compile Include="Models\RegisterModel.cs" />
+    <Compile Include="Models\ForgotPasswordModel.cs" />
+    <Compile Include="Models\ResetPasswordModel.cs" />
     <Compile Include="Models\TransferMoneyModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App_Data\Itransition.Task1.mdf" />
-    <Content Include="App_Data\Itransition.Task1_log.ldf">
-      <DependentUpon>Itransition.Task1.mdf</DependentUpon>
-    </Content>
     <Content Include="Content\css\materialize.css" />
     <Content Include="Content\css\style.css" />
     <Content Include="Content\css\style.min.css" />
     <Content Include="Content\css\themes\theme-cyan.css" />
     <Content Include="Content\css\themes\theme-cyan.min.css" />
+    <Content Include="Content\favicon.ico" />
     <Content Include="Content\js\admin.js" />
     <Content Include="Content\js\pages\examples\forgot-password.js" />
     <Content Include="Content\js\pages\examples\sign-in.js" />
@@ -282,7 +284,6 @@
     <Content Include="Content\plugins\node-waves\waves.min.js.map" />
     <Content Include="Content\plugins\jquery\jquery.min.map" />
     <Content Include="Content\plugins\jquery-validation\localization\messages_az" />
-    <None Include="Properties\PublishProfiles\task1 - FTP.pubxml" />
     <None Include="Properties\PublishProfiles\task1 - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\Task1.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
@@ -326,8 +327,13 @@
     <Content Include="Views\Auth\Register.cshtml" />
     <Content Include="Views\Auth\SignUp.cshtml" />
     <Content Include="Views\Auth\SignIn.cshtml" />
+    <Content Include="Views\Password\Forgot.cshtml" />
+    <Content Include="Views\Password\ResetResult.cshtml" />
+    <Content Include="Views\Password\ResetMsg.cshtml" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="App_Data\" />
+  </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
   </ItemGroup>

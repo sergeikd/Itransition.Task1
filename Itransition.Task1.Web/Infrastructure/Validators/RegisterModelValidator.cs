@@ -10,7 +10,7 @@ namespace Itransition.Task1.Web.Infrastructure.Validators
     {
         private readonly IUserService _userService;
 
-        public RegisterModelValidator(IBankAccountService bankAccountService, IUserService userService)
+        public RegisterModelValidator(IUserService userService)
         {
             if (userService == null) throw new ArgumentNullException();
             _userService = userService;

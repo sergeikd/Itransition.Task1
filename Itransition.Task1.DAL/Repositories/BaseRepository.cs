@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.Migrations;
 using System.Linq;
@@ -27,6 +28,15 @@ namespace Itransition.Task1.DAL.Repositories
                 dbQuery = dbQuery.Include(navigationProperty);
             return dbQuery;
         }
+        public IQueryable<T> GetAllOrdered(Expression<Func<T, object>> order, params Expression<Func<T, object>>[] navigationProperties)
+        {
+            IQueryable<T> dbQuery = _context.Set<T>();
+            dbQuery = dbQuery.OrderBy(order);
+
+            foreach (var navigationProperty in navigationProperties)
+                dbQuery = dbQuery.Include(navigationProperty);
+            return dbQuery;
+        }
 
         public T GetSingle(Func<T, bool> where, params Expression<Func<T, object>>[] navigationProperties)
         {
@@ -50,6 +60,10 @@ namespace Itransition.Task1.DAL.Repositories
         public void Edit(T entity)
         {
             _context.Set<T>().AddOrUpdate(entity);
+        }
+        public void Delete(T item)
+        {
+            _context.Entry(item).State = EntityState.Deleted;
         }
     }
 }

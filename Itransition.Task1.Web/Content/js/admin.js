@@ -106,7 +106,7 @@ $.AdminBSB.leftSideBar = {
         Waves.init();
     },
     setMenuHeight: function () {
-        if (typeof $.fn.slimScroll != 'undefined') {
+        if (typeof $.fn.slimScroll !== 'undefined') {
             var configs = $.AdminBSB.options.leftSideBar;
             var height = ($(window).height() - ($('.legal').outerHeight() + $('.user-info').outerHeight() + $('.navbar').innerHeight()));
             var $el = $('.list');
@@ -203,7 +203,7 @@ $.AdminBSB.search = {
 
         //ESC key on pressed
         $searchBar.find('input[type="text"]').on('keyup', function (e) {
-            if (e.keyCode == 27) {
+            if (e.keyCode === 27) {
                 _this.hideSearchBar();
             }
         });
@@ -264,7 +264,7 @@ $.AdminBSB.input = {
         $('.form-control').focusout(function () {
             var $this = $(this);
             if ($this.parents('.form-group').hasClass('form-float')) {
-                if ($this.val() == '') { $this.parents('.form-line').removeClass('focused'); }
+                if ($this.val() === '') { $this.parents('.form-line').removeClass('focused'); }
             }
             else {
                 $this.parents('.form-line').removeClass('focused');
@@ -360,7 +360,7 @@ $.AdminBSB.dropdownMenu = {
             data.dropdownMenu.removeClass(data.effectIn);
             data.dropdownMenu.removeClass(data.effectOut);
 
-            if (typeof callback == 'function') {
+            if (typeof callback === 'function') {
                 callback();
             }
         });
