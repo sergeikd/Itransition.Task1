@@ -1,16 +1,299 @@
-﻿@model decimal?
+﻿
 @{
-    ViewBag.Title = "Home Page";
-}
-@if (User.Identity.IsAuthenticated)
-{
-    <h2>Your amount: @Model.ToString()</h2>
-    <h2>You can:</h2>
-    <h2>@Html.ActionLink("Put money to your account", "Put", "BankAccount")</h2>
-    <h2>@Html.ActionLink("Transfer money to another account", "Transfer", "BankAccount")</h2>
-}
-else
-{
-    <h2>Please perform Login for manage your account</h2>
+    Layout = null;
 }
 
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <title>Main Page</title>
+    <!-- Favicon-->
+    <link rel="icon" href="~/Content/favicon.ico" type="image/x-icon">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&subset=latin,cyrillic-ext" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" type="text/css">
+
+    <!-- Bootstrap Core Css -->
+    <link href="~/Content/css/bootstrap.css" rel="stylesheet">
+    <link href="~/Content/css/waves.css" rel="stylesheet" />
+    <link href="~/Content/css/animate.css" rel="stylesheet" />
+    <link href="~/Content/css/md-preloader.css" rel="stylesheet" />
+    <link href="~/Content/css/bootstrap-colorpicker.css" rel="stylesheet" />
+    @*<link href="~/Content/css/dropzone.css" rel="stylesheet">
+        <link href="~/Content/css/multi-select.css" rel="stylesheet">
+        <link href="~/Content/css/bootstrap-spinner.css" rel="stylesheet">
+        <link href="~/Content/css/bootstrap-tagsinput.css" rel="stylesheet">
+        <link href="~/Content/css/bootstrap-select.css" rel="stylesheet" />
+        <link href="~/Content/css/nouislider.min.css" rel="stylesheet" />*@
+    <link href="~/Content/css/style.css" rel="stylesheet">
+    <link href="~/Content/css/theme-cyan.css" rel="stylesheet" />
+</head>
+<body>
+    <!-- Tabs With Icon Title -->
+    <div class="row clearfix">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div class="card">
+                <div class="header">
+                    <h2>
+                        TASK1 APPLICATION
+                    </h2>
+                    <ul class="header-dropdown m-r--5">
+                        <li class="dropdown">
+                            <span href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                                <button class="btn bg-cyan btn-lg btn-block waves-effect" type="button">
+                                    Amount:
+                                    <span class="badge ">
+                                        <span data-bind="text: appData.amount"></span>
+                                    </span>
+                                    <span>&nbsp; User: </span>
+                                    <span class="badge ">@User.Identity.Name</span>
+                                </button>
+                            </span>
+                            <ul class="dropdown-menu pull-right">
+                                <li>@Html.ActionLink("Sign out", "Logoff", "Auth")</li>
+                                <li>@Html.ActionLink("Change password", "Change", "Password")</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+                <div class="body">
+                    <!-- Nav tabs -->
+                    <ul class="nav nav-tabs" role="tablist">
+                        <li role="presentation" class="active">
+                            <a href="#home_with_icon_title" data-toggle="tab">
+                                <i class="material-icons">input</i> PUT
+                            </a>
+                        </li>
+                        <li role="presentation">
+                            <a href="#profile_with_icon_title" data-toggle="tab">
+                                <i class="material-icons">swap_horiz</i> TRANSFER
+                            </a>
+                        </li>
+                        <li role="presentation">
+                            <a href="#messages_with_icon_title" data-toggle="tab">
+                                <i class="material-icons">email</i> MESSAGES
+                            </a>
+                        </li>
+                        <li role="presentation">
+                            <a href="#settings_with_icon_title" data-toggle="tab">
+                                <i class="material-icons">settings</i> SETTINGS
+                            </a>
+                        </li>
+                    </ul>
+                    <!-- Tab panes -->
+                    <div class="tab-content">
+                        <div role="tabpanel" class="tab-pane fade in active" id="home_with_icon_title">
+                            <!-- Masked Input -->
+                            <div class="row clearfix">
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                    <div class="">
+                                        <div class="body">
+                                            <div class="demo-masked-input">
+                                                <div class="col-md-3">
+                                                    <b>Put money to your account</b>
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon">
+                                                            <i class="material-icons">attach_money</i>
+                                                        </span>
+                                                        <div class="form-line">
+                                                            <input type="text" class="form-control money-dollar" data-bind="textInput: appData.put" placeholder="Ex: 99,99">
+                                                        </div>
+                                                    </div>
+                                                    <p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <p><button id="putBtn">Put money</button></p>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- #END# Masked Input -->
+                        </div>
+
+                        <div role="tabpanel" class="tab-pane fade" id="profile_with_icon_title">
+                            <div class="row clearfix">
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                    <div class="">
+                                        <div class="body">
+                                            <div class="demo-masked-input">
+                                                <div class="col-md-3">
+                                                    <b>Input a sum to transfer:</b>
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon">
+                                                            <i class="material-icons">attach_money</i>
+                                                        </span>
+                                                        <div class="form-line">
+                                                            <input type="text" class="form-control money-dollar" data-bind="textInput: appData.transfer" placeholder="Ex: 99,99">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <div class="input-group">
+                                                        <p>
+                                                            <b>Available accounts for transfer:</b>
+                                                            <select class="form-control" data-bind="options: appData.othersAccounts,
+                                                               value: appData.selectedAccount,
+                                                               optionsCaption: 'Choose account'"></select>
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <p><button id="transferBtn">Transfer money</button></p>
+                                        <p data-bind="text: appData.selectedAccount"></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div role="tabpanel" class="tab-pane fade" id="messages_with_icon_title">
+                            <b>Message Content</b>
+                            <p>
+                                Lorem ipsum dolor sit amet, ut duo atqui exerci dicunt, ius impedit mediocritatem an. Pri ut tation electram moderatius.
+                                Per te suavitate democritum. Duis nemore probatus ne quo, ad liber essent aliquid
+                                pro. Et eos nusquam accumsan, vide mentitum fabellas ne est, eu munere gubergren
+                                sadipscing mel.
+                            </p>
+                        </div>
+                        <div role="tabpanel" class="tab-pane fade" id="settings_with_icon_title">
+                            <b>Settings Content</b>
+                            <p>
+                                Lorem ipsum dolor sit amet, ut duo atqui exerci dicunt, ius impedit mediocritatem an. Pri ut tation electram moderatius.
+                                Per te suavitate democritum. Duis nemore probatus ne quo, ad liber essent aliquid
+                                pro. Et eos nusquam accumsan, vide mentitum fabellas ne est, eu munere gubergren
+                                sadipscing mel.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- #END# Tabs With Icon Title -->
+
+
+    @*<script src="~/Scripts/jquery.js"></script>
+    <script type="text/javascript" src="~/Scripts/knockout-3.4.2.debug.js"></script>*@
+    <script type="text/javascript">
+
+        function AppViewModel() {
+            var self = this;
+            self.appData = {
+                amount: ko.observable(),
+                put: ko.observable(""),
+                transfer: ko.observable(""),
+                othersAccounts: ko.observableArray(),
+                selectedAccount: ko.observable()
+            };
+
+            self.loadInitData = function () {
+                $.ajax({
+                    url: '/Home/GetGlobalData',
+                    type: 'POST',
+                    contentType: 'application/x-www-form-urlencoded'
+                }).success(self.successHandler).error(self.errorHandler);
+            };
+
+            self.putMoney = function (putValue) {
+                var data = {
+                    put: putValue
+                };
+
+                $.ajax({
+                    url: '/Home/Put',
+                    type: 'POST',
+                    data: data,
+                    contentType: 'application/x-www-form-urlencoded'
+                })
+                    .success(self.successHandler)
+                    .error(self.errorHandler);
+            };
+            self.transferMoney = function (transferValue) {
+                var data = {
+                    transfer: transferValue,
+                    recipient: self.appData.selectedAccount()
+                };
+
+                $.ajax({
+                    url: '/Home/Transfer',
+                    type: 'POST',
+                    data: data,
+                    contentType: 'application/x-www-form-urlencoded'
+                })
+                    .success(self.successHandler)
+                    .error(self.errorHandler);
+            };
+            //self.submitHandler = function() {
+            //    var userInfo = ko.toJS(self.user);
+            //    $.ajax({
+            //        url: '/Home/GetGlobalData',
+            //        data: userInfo,
+            //        type: 'POST',
+            //        contentType: 'application/x-www-form-urlencoded'
+            //    }).success(self.successHandler).error(self.errorHandler);
+            //};
+            self.successHandler = function (data) {
+                self.appData.amount(data.UserAmount);
+                self.appData.othersAccounts(data.OthersAccounts);
+                self.appData.put("");
+                self.appData.transfer("");
+            };
+            self.errorHandler = function () {
+                alert("Error!");
+            };
+        };
+        var appViewModel = new AppViewModel();
+        ko.applyBindings(appViewModel);
+
+        appViewModel.loadInitData();
+
+        //*** PUT MONEY action handler ***
+        var putBtn = document.getElementById("putBtn");
+        putBtn.addEventListener("click", function (e) {
+            var putValue = appViewModel.appData.put();
+            if (putValue == undefined || putValue === '') {
+                return;
+            }
+            appViewModel.putMoney(putValue);
+        });
+        //*** End PUT MONEY action handler ***
+
+        //*** TRANSFER MONEY action handler ***
+        var putBtn = document.getElementById("transferBtn");
+        putBtn.addEventListener("click", function (e) {
+            var selectedAccount = appViewModel.appData.selectedAccount();
+            if (selectedAccount == undefined || selectedAccount.length < 16) {
+                return;
+            }
+            var transferValue = appViewModel.appData.transfer();
+            if (transferValue == undefined || transferValue === '') {
+                return;
+            }
+            appViewModel.transferMoney(transferValue);
+        });
+    //*** End TRANSFER MONEY action handler ***
+    </script>
+
+<script src="~/Scripts/jquery.min.js"></script>
+<script type="text/javascript" src="~/Scripts/knockout-3.4.2.debug.js"></script>
+    <script src="~/Scripts/bootstrap.js"></script>
+    @*<script src="~/Scripts/bootstrap-select.js"></script>*@
+    @*<script src="~/Scripts/jquery.slimscroll.js"></script>*@
+    <script src="~/Scripts/bootstrap-colorpicker.js"></script>
+    @*<script src="~/Scripts/dropzone.js"></script>*@
+    <script src="~/Scripts/jquery.inputmask.bundle.js"></script>
+    @*<script src="~/Scripts/jquery.multi-select.js"></script>
+        <script src="~/Scripts/jquery.spinner.js"></script>
+        <script src="~/Scripts/bootstrap-tagsinput.js"></script>
+        <script src="~/Scripts/nouislider.js"></script>*@
+    <script src="~/Scripts/waves.js"></script>
+    <script src="~/Scripts/admin.js"></script>
+    <script src="~/Scripts/advanced-form-elements_MY.js"></script>
+    @*<script src="~/Scripts/demo.js"></script>*@
+
+</body>
+</html>

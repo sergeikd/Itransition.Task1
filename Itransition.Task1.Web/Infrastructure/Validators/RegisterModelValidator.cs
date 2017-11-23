@@ -17,14 +17,14 @@ namespace Itransition.Task1.Web.Infrastructure.Validators
 
             RuleFor(u => u.Email).NotEmpty().EmailAddress();
             RuleFor(u => u.Password).NotEmpty();
-            RuleFor(u => u.ConfirmPassword).NotEmpty();
+            RuleFor(u => u.Confirm).NotEmpty();
             RuleFor(u => u).Must(CheckPasswords).WithMessage("Password and Confirm Password are not equal");
             RuleFor(u => u).Must(IsExist).WithMessage("User with the same name already exists");
         }
 
         private static bool CheckPasswords(RegisterModel registerModel)
         {
-            return registerModel.Password == registerModel.ConfirmPassword;
+            return registerModel.Password == registerModel.Confirm;
         }
         private bool IsExist(RegisterModel registerModel)
         {

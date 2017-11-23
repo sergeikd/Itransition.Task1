@@ -13,6 +13,6 @@ namespace Itransition.Task1.Web.Models
         public string Password { get; set; }
 
         [DataType(DataType.Password)]
-        public string ConfirmPassword { get; set; }
+        public string Confirm { get; set; }
     }
 }

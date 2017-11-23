@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Itransition.Task1.BL.DtoModels;
 using Itransition.Task1.BL.Interfaces;
 using Itransition.Task1.DAL.Interfaces;
 using Itransition.Task1.Domain;
@@ -30,29 +31,84 @@ namespace Itransition.Task1.BL.Services
             throw new NotImplementedException();
         }
 
-        public void PutMoney(string userName, decimal money)
+        public GlobalDataDto PutMoney(string email, string money)
         {
-            var account = _userRepository.GetSingle(u => u.Email == userName).BankAccount;
-            account.Amount += money;
-            _bankAccountRepository.Edit(account);
+            GlobalDataDto globalData;
+            try
+            {
+                money = money.Replace("_", "");
+                money = money.Replace(",", ".");
+                var moneyValue = Convert.ToDecimal(money);
+                var account = _userRepository.GetSingle(u => u.Email == email).BankAccount;
+                account.Amount += moneyValue;
+                _bankAccountRepository.Edit(account);
+                globalData = GetGlobalData(account);
+            }
+            catch (FormatException)
+            {
+                var account = _userRepository.GetSingle(u => u.Email == email).BankAccount;
+                globalData = GetGlobalData(account);
+                globalData.ErrorMsg = "Please enter correct value!";
+            }
+
+            return globalData;
         }
 
-        public void TransferMoney(string userName, decimal money , string toAccount)
+        public GlobalDataDto TransferMoney(string email, string money , string toAccount)
         {
-            var ownAccount = _userRepository.GetSingle(u => u.Email == userName).BankAccount;
-            if (ownAccount.Amount < money)
+            GlobalDataDto globalData;
+            var ownAccount = _userRepository.GetSingle(u => u.Email == email).BankAccount;
+            decimal moneyValue;
+            try
             {
-                throw new ArgumentOutOfRangeException();
+                money = money.Replace("_", "");
+                money = money.Replace(",", ".");
+                moneyValue = Convert.ToDecimal(money);
+            }
+            catch (FormatException)
+            {
+                globalData = GetGlobalData(ownAccount);
+                globalData.ErrorMsg = "Please enter correct value!";
+                return globalData;
+            }
+
+            if (ownAccount.Amount < moneyValue)
+            {
+                globalData = GetGlobalData(ownAccount);
+                globalData.ErrorMsg = "Insufficient money!";
+                return globalData;
             }
             var destAccount = _bankAccountRepository.GetSingle(a => a.AccountNumber == toAccount);
             if (destAccount == null)
             {
-                throw new ArgumentNullException();
+                globalData = GetGlobalData(ownAccount);
+                globalData.ErrorMsg = "No such recipient!";
+                return globalData;
             }
-            ownAccount.Amount -= money;
+            ownAccount.Amount -= moneyValue;
             _bankAccountRepository.Edit(ownAccount);
-            destAccount.Amount += money;
+            destAccount.Amount += moneyValue;
             _bankAccountRepository.Edit(destAccount);
+            return GetGlobalData(ownAccount);
+        }
+        public GlobalDataDto GetGlobalData(BankAccount ownAccount)
+        {
+            var globalData = new GlobalDataDto();
+            var othersAccounts = GetAllBankAccounts().Where(x => x.AccountNumber != ownAccount.AccountNumber).Select(a => a.AccountNumber).ToList(); //Remove own account from the list
+            globalData.Amount = ownAccount.Amount;
+            globalData.OwnAccountNumber = ownAccount.AccountNumber;
+            globalData.OthersAccountNumbers = othersAccounts;
+            return globalData;
+        }
+        public GlobalDataDto GetInitGlobalData(string email)
+        {
+            var globalData = new GlobalDataDto();
+            var ownAccount = _userRepository.GetSingle(u => u.Email == email).BankAccount;
+            var othersAccounts = GetAllBankAccounts().Where(x => x.AccountNumber != ownAccount.AccountNumber).Select(a => a.AccountNumber).ToList(); //Remove own account from the list
+            globalData.Amount = ownAccount.Amount;
+            globalData.OwnAccountNumber = ownAccount.AccountNumber;
+            globalData.OthersAccountNumbers = othersAccounts;
+            return globalData;
         }
     }
 }

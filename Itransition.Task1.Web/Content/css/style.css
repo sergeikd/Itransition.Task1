@@ -2351,12 +2351,13 @@
 
 /* General ===================================== */
 body {
-  background-color: #e9e9e9;
-  -moz-transition: all 0.5s;
-  -o-transition: all 0.5s;
-  -webkit-transition: all 0.5s;
-  transition: all 0.5s;
-  font-family: 'Roboto', Arial, Tahoma, sans-serif; }
+    background-color: #00BCD4;
+    -moz-transition: all 0.5s;
+    -o-transition: all 0.5s;
+    -webkit-transition: all 0.5s;
+    transition: all 0.5s;
+    font-family: 'Roboto', Arial, Tahoma, sans-serif;
+}
 
 h1,
 h2,
@@ -2938,7 +2939,7 @@ section.content {
     border-bottom: 1px solid rgba(204, 204, 204, 0.35); }
     .card .header .header-dropdown {
       position: absolute;
-      top: 20px;
+      top: 10px; /*Serg: there was 20px*/
       right: 15px;
       list-style: none; }
       .card .header .header-dropdown .dropdown-menu li {

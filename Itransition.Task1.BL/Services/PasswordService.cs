@@ -26,7 +26,7 @@ namespace Itransition.Task1.BL.Services
 
         public void RemoveResets(string email)
         {
-            var resetPasswords = _resetPasswordRepository.GetAll(x => x.Email == email).ToList();
+            var resetPasswords = _resetPasswordRepository.GetAll().ToList().Where(x => x.Email == email);
             if (!resetPasswords.Any()) return;
             foreach (var item in resetPasswords)
             {
