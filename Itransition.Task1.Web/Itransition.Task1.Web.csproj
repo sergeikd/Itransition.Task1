@@ -222,6 +222,7 @@
     <Content Include="Scripts\additional-methods.js" />
     <Content Include="Scripts\admin.js" />
     <Content Include="Scripts\advanced-form-elements_MY.js" />
+    <Content Include="Scripts\_app.js" />
     <Content Include="Scripts\bootstrap-colorpicker.js" />
     <Content Include="Scripts\bootstrap-colorpicker.min.js" />
     <Content Include="Scripts\bootstrap-select.js" />
@@ -302,7 +303,6 @@
     <Content Include="Scripts\waves.min.js.map" />
     <Content Include="Scripts\bootstrap-select.js.map" />
     <Content Include="Scripts\jquery.min.map" />
-    <Content Include="Views\Auth\SignUpCopy.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

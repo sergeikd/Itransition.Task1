@@ -65,7 +65,7 @@
                     <ul class="nav nav-tabs" role="tablist">
                         <li role="presentation" class="active">
                             <a href="#home_with_icon_title" data-toggle="tab">
-                                <i class="material-icons">input</i> PUT
+                                <i class="material-icons">vertical_align_bottom</i> PUT
                             </a>
                         </li>
                         <li role="presentation">
@@ -75,12 +75,7 @@
                         </li>
                         <li role="presentation">
                             <a href="#messages_with_icon_title" data-toggle="tab">
-                                <i class="material-icons">email</i> MESSAGES
-                            </a>
-                        </li>
-                        <li role="presentation">
-                            <a href="#settings_with_icon_title" data-toggle="tab">
-                                <i class="material-icons">settings</i> SETTINGS
+                                <i class="material-icons">list</i> TRANSACTIONS
                             </a>
                         </li>
                     </ul>
@@ -94,7 +89,7 @@
                                         <div class="body">
                                             <div class="demo-masked-input">
                                                 <div class="col-md-3">
-                                                    <b>Put money to your account</b>
+                                                    <b>Put money to your account:</b>
                                                     <div class="input-group">
                                                         <span class="input-group-addon">
                                                             <i class="material-icons">attach_money</i>
@@ -107,7 +102,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <p><button id="putBtn">Put money</button></p>
+	                                    <p><button id="putBtn">Put money</button></p>
                                     </div>
                                 </div>
                             </div>
@@ -144,29 +139,37 @@
                                             </div>
                                         </div>
                                         <p><button id="transferBtn">Transfer money</button></p>
-                                        <p data-bind="text: appData.selectedAccount"></p>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
                         <div role="tabpanel" class="tab-pane fade" id="messages_with_icon_title">
-                            <b>Message Content</b>
-                            <p>
-                                Lorem ipsum dolor sit amet, ut duo atqui exerci dicunt, ius impedit mediocritatem an. Pri ut tation electram moderatius.
-                                Per te suavitate democritum. Duis nemore probatus ne quo, ad liber essent aliquid
-                                pro. Et eos nusquam accumsan, vide mentitum fabellas ne est, eu munere gubergren
-                                sadipscing mel.
-                            </p>
-                        </div>
-                        <div role="tabpanel" class="tab-pane fade" id="settings_with_icon_title">
-                            <b>Settings Content</b>
-                            <p>
-                                Lorem ipsum dolor sit amet, ut duo atqui exerci dicunt, ius impedit mediocritatem an. Pri ut tation electram moderatius.
-                                Per te suavitate democritum. Duis nemore probatus ne quo, ad liber essent aliquid
-                                pro. Et eos nusquam accumsan, vide mentitum fabellas ne est, eu munere gubergren
-                                sadipscing mel.
-                            </p>
+                            <b>Transactions history:</b>
+
+                            <table class="table table-striped ">
+                                <thead><tr><th>Id</th><th>Date</th><th>Sender</th><th>Recipient</th><th>Amount</th></tr></thead>
+                                <tbody data-bind="foreach: { data: appData.transactions, as: 'transaction'}">
+                                <tr>
+                                    <td>
+                                        <p data-bind="text: transaction.Id">-</p>
+                                    </td>
+                                    <td>
+                                        <p data-bind="text: transaction.Date">-</p>
+                                    </td>
+                                    <td>
+                                        <p data-bind="text: transaction.Sender">-</p>
+                                    </td>
+                                    <td>
+                                        <p data-bind="text: transaction.Recipient">-</p>
+                                    </td>
+                                    <td>
+                                        <p data-bind="text: transaction.Amount">-</p>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+
                         </div>
                     </div>
                 </div>
@@ -178,105 +181,7 @@
 
     @*<script src="~/Scripts/jquery.js"></script>
     <script type="text/javascript" src="~/Scripts/knockout-3.4.2.debug.js"></script>*@
-    <script type="text/javascript">
 
-        function AppViewModel() {
-            var self = this;
-            self.appData = {
-                amount: ko.observable(),
-                put: ko.observable(""),
-                transfer: ko.observable(""),
-                othersAccounts: ko.observableArray(),
-                selectedAccount: ko.observable()
-            };
-
-            self.loadInitData = function () {
-                $.ajax({
-                    url: '/Home/GetGlobalData',
-                    type: 'POST',
-                    contentType: 'application/x-www-form-urlencoded'
-                }).success(self.successHandler).error(self.errorHandler);
-            };
-
-            self.putMoney = function (putValue) {
-                var data = {
-                    put: putValue
-                };
-
-                $.ajax({
-                    url: '/Home/Put',
-                    type: 'POST',
-                    data: data,
-                    contentType: 'application/x-www-form-urlencoded'
-                })
-                    .success(self.successHandler)
-                    .error(self.errorHandler);
-            };
-            self.transferMoney = function (transferValue) {
-                var data = {
-                    transfer: transferValue,
-                    recipient: self.appData.selectedAccount()
-                };
-
-                $.ajax({
-                    url: '/Home/Transfer',
-                    type: 'POST',
-                    data: data,
-                    contentType: 'application/x-www-form-urlencoded'
-                })
-                    .success(self.successHandler)
-                    .error(self.errorHandler);
-            };
-            //self.submitHandler = function() {
-            //    var userInfo = ko.toJS(self.user);
-            //    $.ajax({
-            //        url: '/Home/GetGlobalData',
-            //        data: userInfo,
-            //        type: 'POST',
-            //        contentType: 'application/x-www-form-urlencoded'
-            //    }).success(self.successHandler).error(self.errorHandler);
-            //};
-            self.successHandler = function (data) {
-                self.appData.amount(data.UserAmount);
-                self.appData.othersAccounts(data.OthersAccounts);
-                self.appData.put("");
-                self.appData.transfer("");
-            };
-            self.errorHandler = function () {
-                alert("Error!");
-            };
-        };
-        var appViewModel = new AppViewModel();
-        ko.applyBindings(appViewModel);
-
-        appViewModel.loadInitData();
-
-        //*** PUT MONEY action handler ***
-        var putBtn = document.getElementById("putBtn");
-        putBtn.addEventListener("click", function (e) {
-            var putValue = appViewModel.appData.put();
-            if (putValue == undefined || putValue === '') {
-                return;
-            }
-            appViewModel.putMoney(putValue);
-        });
-        //*** End PUT MONEY action handler ***
-
-        //*** TRANSFER MONEY action handler ***
-        var putBtn = document.getElementById("transferBtn");
-        putBtn.addEventListener("click", function (e) {
-            var selectedAccount = appViewModel.appData.selectedAccount();
-            if (selectedAccount == undefined || selectedAccount.length < 16) {
-                return;
-            }
-            var transferValue = appViewModel.appData.transfer();
-            if (transferValue == undefined || transferValue === '') {
-                return;
-            }
-            appViewModel.transferMoney(transferValue);
-        });
-    //*** End TRANSFER MONEY action handler ***
-    </script>
 
 <script src="~/Scripts/jquery.min.js"></script>
 <script type="text/javascript" src="~/Scripts/knockout-3.4.2.debug.js"></script>
@@ -293,7 +198,8 @@
     <script src="~/Scripts/waves.js"></script>
     <script src="~/Scripts/admin.js"></script>
     <script src="~/Scripts/advanced-form-elements_MY.js"></script>
-    @*<script src="~/Scripts/demo.js"></script>*@
+@*<script src="~/Scripts/demo.js"></script>*@
+<script src="~/Scripts/_app.js"></script>
 
 </body>
 </html>

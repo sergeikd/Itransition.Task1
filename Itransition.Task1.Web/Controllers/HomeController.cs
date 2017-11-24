@@ -35,6 +35,7 @@ namespace Itransition.Task1.Web.Controllers
             {
                 UserAmount = globalData.Amount,
                 OthersAccounts = globalData.OthersAccountNumbers,
+                Transactions = globalData.Transactions,
                 ErrorMsg = globalData.ErrorMsg
             };
 
@@ -48,6 +49,7 @@ namespace Itransition.Task1.Web.Controllers
             {
                 UserAmount = globalData.Amount,
                 OthersAccounts = globalData.OthersAccountNumbers,
+                Transactions = globalData.Transactions,
                 ErrorMsg = globalData.ErrorMsg
             };
             return Json(globalDataModel);
@@ -61,6 +63,7 @@ namespace Itransition.Task1.Web.Controllers
             {
                 UserAmount = globalData.Amount,
                 OthersAccounts = globalData.OthersAccountNumbers,
+                Transactions = globalData.Transactions,
                 ErrorMsg = globalData.ErrorMsg
             };
             return Json(globalDataModel);

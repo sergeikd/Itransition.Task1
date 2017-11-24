@@ -10,6 +10,7 @@ namespace Itransition.Task1.DAL
 
         public DbSet<AppUser> Users { get; set; }
         public DbSet<BankAccount> BankAccounts { get; set; }
+        public DbSet<Transaction> Transactions { get; set; }
         public DbSet<ResetPassword> ResetPasswords { get; set; }
     }
 }

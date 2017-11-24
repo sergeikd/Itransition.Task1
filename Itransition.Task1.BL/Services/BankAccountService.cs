@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using Itransition.Task1.BL.DtoModels;
 using Itransition.Task1.BL.Interfaces;
@@ -13,12 +14,15 @@ namespace Itransition.Task1.BL.Services
 
         private readonly IBankAccountRepository _bankAccountRepository;
         private readonly IUserRepository _userRepository;
-        public BankAccountService(IBankAccountRepository bankAccountRepository, IUserRepository userRepository)
+        private readonly ITransactionRepository _transactionRepository;
+        public BankAccountService(IBankAccountRepository bankAccountRepository, IUserRepository userRepository, ITransactionRepository transactionRepository)
         {
             if (bankAccountRepository == null) throw new ArgumentNullException();
             if (userRepository == null) throw new ArgumentNullException();
+            if (transactionRepository == null) throw new ArgumentNullException();
             _bankAccountRepository = bankAccountRepository;
             _userRepository = userRepository;
+            _transactionRepository = transactionRepository;
         }
 
         public IList<BankAccount> GetAllBankAccounts()
@@ -42,6 +46,14 @@ namespace Itransition.Task1.BL.Services
                 var account = _userRepository.GetSingle(u => u.Email == email).BankAccount;
                 account.Amount += moneyValue;
                 _bankAccountRepository.Edit(account);
+                var transaction = new Transaction
+                {
+                    Amount = moneyValue,
+                    Sender = account.AccountNumber,
+                    Recipient = account.AccountNumber,
+                    Date = DateTime.Now
+                };
+                _transactionRepository.Add(transaction);
                 globalData = GetGlobalData(account);
             }
             catch (FormatException)
@@ -89,25 +101,47 @@ namespace Itransition.Task1.BL.Services
             _bankAccountRepository.Edit(ownAccount);
             destAccount.Amount += moneyValue;
             _bankAccountRepository.Edit(destAccount);
+            var transaction = new Transaction
+            {
+                Amount = moneyValue,
+                Sender = ownAccount.AccountNumber,
+                Recipient = destAccount.AccountNumber,
+                Date = DateTime.Now
+            };
+            _transactionRepository.Add(transaction);
             return GetGlobalData(ownAccount);
         }
         public GlobalDataDto GetGlobalData(BankAccount ownAccount)
         {
             var globalData = new GlobalDataDto();
+            var transactionDtoList = new List<TransactionDto>();
             var othersAccounts = GetAllBankAccounts().Where(x => x.AccountNumber != ownAccount.AccountNumber).Select(a => a.AccountNumber).ToList(); //Remove own account from the list
+            var transactions = _transactionRepository.GetAll().Where(t => t.Sender == ownAccount.AccountNumber).ToList();
+            foreach (var transaction in transactions)
+            {
+                transactionDtoList.Add(new TransactionDto { Id = transaction.Id, Amount = transaction.Amount, Sender = transaction.Sender, Recipient = transaction.Recipient, Date = transaction.Date.ToString(CultureInfo.InvariantCulture) });
+            }
             globalData.Amount = ownAccount.Amount;
             globalData.OwnAccountNumber = ownAccount.AccountNumber;
             globalData.OthersAccountNumbers = othersAccounts;
+            globalData.Transactions = transactionDtoList;
             return globalData;
         }
         public GlobalDataDto GetInitGlobalData(string email)
         {
             var globalData = new GlobalDataDto();
+            var transactionDtoList = new List<TransactionDto>();
             var ownAccount = _userRepository.GetSingle(u => u.Email == email).BankAccount;
             var othersAccounts = GetAllBankAccounts().Where(x => x.AccountNumber != ownAccount.AccountNumber).Select(a => a.AccountNumber).ToList(); //Remove own account from the list
+            var transactions = _transactionRepository.GetAll().Where(t => t.Sender == ownAccount.AccountNumber).ToList();
+            foreach (var transaction in transactions)
+            {
+                transactionDtoList.Add(new TransactionDto{ Id = transaction.Id, Amount = transaction.Amount, Sender = transaction.Sender, Recipient = transaction.Recipient, Date = transaction.Date.ToString(CultureInfo.InvariantCulture) });
+            }
             globalData.Amount = ownAccount.Amount;
             globalData.OwnAccountNumber = ownAccount.AccountNumber;
             globalData.OthersAccountNumbers = othersAccounts;
+            globalData.Transactions = transactionDtoList;
             return globalData;
         }
     }
