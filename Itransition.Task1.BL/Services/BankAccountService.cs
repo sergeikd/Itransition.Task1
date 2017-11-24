@@ -35,14 +35,12 @@ namespace Itransition.Task1.BL.Services
             throw new NotImplementedException();
         }
 
-        public GlobalDataDto PutMoney(string email, string money)
+        public string PutMoney(string email, string money)
         {
-            GlobalDataDto globalData;
+            var result = string.Empty;
             try
             {
-                money = money.Replace("_", "");
-                money = money.Replace(",", ".");
-                var moneyValue = Convert.ToDecimal(money);
+                var moneyValue = StringToDecimal(money);
                 var account = _userRepository.GetSingle(u => u.Email == email).BankAccount;
                 account.Amount += moneyValue;
                 _bankAccountRepository.Edit(account);
@@ -54,48 +52,37 @@ namespace Itransition.Task1.BL.Services
                     Date = DateTime.Now
                 };
                 _transactionRepository.Add(transaction);
-                globalData = GetGlobalData(account);
             }
             catch (FormatException)
             {
-                var account = _userRepository.GetSingle(u => u.Email == email).BankAccount;
-                globalData = GetGlobalData(account);
-                globalData.ErrorMsg = "Please enter correct value!";
+                result = "Please enter correct value!";
             }
 
-            return globalData;
+            return result;
         }
 
-        public GlobalDataDto TransferMoney(string email, string money , string toAccount)
+        public string TransferMoney(string email, string money , string toAccount)
         {
-            GlobalDataDto globalData;
+            var result = string.Empty;
             var ownAccount = _userRepository.GetSingle(u => u.Email == email).BankAccount;
             decimal moneyValue;
             try
             {
-                money = money.Replace("_", "");
-                money = money.Replace(",", ".");
-                moneyValue = Convert.ToDecimal(money);
+                moneyValue = StringToDecimal(money);
             }
             catch (FormatException)
             {
-                globalData = GetGlobalData(ownAccount);
-                globalData.ErrorMsg = "Please enter correct value!";
-                return globalData;
+                return "Please enter correct value!";
             }
 
             if (ownAccount.Amount < moneyValue)
             {
-                globalData = GetGlobalData(ownAccount);
-                globalData.ErrorMsg = "Insufficient money!";
-                return globalData;
+                return "Insufficient money!";
             }
             var destAccount = _bankAccountRepository.GetSingle(a => a.AccountNumber == toAccount);
             if (destAccount == null)
             {
-                globalData = GetGlobalData(ownAccount);
-                globalData.ErrorMsg = "No such recipient!";
-                return globalData;
+                return "No such recipient!";
             }
             ownAccount.Amount -= moneyValue;
             _bankAccountRepository.Edit(ownAccount);
@@ -109,40 +96,44 @@ namespace Itransition.Task1.BL.Services
                 Date = DateTime.Now
             };
             _transactionRepository.Add(transaction);
-            return GetGlobalData(ownAccount);
+            return result;
         }
-        public GlobalDataDto GetGlobalData(BankAccount ownAccount)
+        //public GlobalDataDto GetGlobalData(BankAccount ownAccount)
+        //{
+        //    var globalData = new GlobalDataDto();
+        //    var transactionDtoList = new List<TransactionDto>();
+        //    var othersAccounts = GetAllBankAccounts().Where(x => x.AccountNumber != ownAccount.AccountNumber).Select(a => a.AccountNumber).ToList(); //Remove own account from the list
+        //    var transactions = _transactionRepository.GetAll().Where(t => t.Sender == ownAccount.AccountNumber).ToList();
+        //    foreach (var transaction in transactions)
+        //    {
+        //        transactionDtoList.Add(new TransactionDto { Id = transaction.Id, Amount = transaction.Amount, Sender = transaction.Sender, Recipient = transaction.Recipient, Date = transaction.Date });
+        //    }
+        //    globalData.Amount = ownAccount.Amount;
+        //    globalData.OwnAccountNumber = ownAccount.AccountNumber;
+        //    globalData.OthersAccountNumbers = othersAccounts;
+        //    globalData.Transactions = transactionDtoList;
+        //    return globalData;
+        //}
+        public GlobalDataDto GetGlobalData(string email)
         {
-            var globalData = new GlobalDataDto();
-            var transactionDtoList = new List<TransactionDto>();
-            var othersAccounts = GetAllBankAccounts().Where(x => x.AccountNumber != ownAccount.AccountNumber).Select(a => a.AccountNumber).ToList(); //Remove own account from the list
-            var transactions = _transactionRepository.GetAll().Where(t => t.Sender == ownAccount.AccountNumber).ToList();
-            foreach (var transaction in transactions)
-            {
-                transactionDtoList.Add(new TransactionDto { Id = transaction.Id, Amount = transaction.Amount, Sender = transaction.Sender, Recipient = transaction.Recipient, Date = transaction.Date.ToString(CultureInfo.InvariantCulture) });
-            }
-            globalData.Amount = ownAccount.Amount;
-            globalData.OwnAccountNumber = ownAccount.AccountNumber;
-            globalData.OthersAccountNumbers = othersAccounts;
-            globalData.Transactions = transactionDtoList;
-            return globalData;
-        }
-        public GlobalDataDto GetInitGlobalData(string email)
-        {
-            var globalData = new GlobalDataDto();
-            var transactionDtoList = new List<TransactionDto>();
             var ownAccount = _userRepository.GetSingle(u => u.Email == email).BankAccount;
             var othersAccounts = GetAllBankAccounts().Where(x => x.AccountNumber != ownAccount.AccountNumber).Select(a => a.AccountNumber).ToList(); //Remove own account from the list
             var transactions = _transactionRepository.GetAll().Where(t => t.Sender == ownAccount.AccountNumber).ToList();
-            foreach (var transaction in transactions)
+            var globalData = new GlobalDataDto
             {
-                transactionDtoList.Add(new TransactionDto{ Id = transaction.Id, Amount = transaction.Amount, Sender = transaction.Sender, Recipient = transaction.Recipient, Date = transaction.Date.ToString(CultureInfo.InvariantCulture) });
-            }
-            globalData.Amount = ownAccount.Amount;
-            globalData.OwnAccountNumber = ownAccount.AccountNumber;
-            globalData.OthersAccountNumbers = othersAccounts;
-            globalData.Transactions = transactionDtoList;
+                Amount = ownAccount.Amount,
+                OwnAccountNumber = ownAccount.AccountNumber,
+                OthersAccounts = othersAccounts,
+                Transactions = transactions
+            };
             return globalData;
+        }
+
+        private static decimal StringToDecimal(string str)
+        {
+            str = str.Replace("_", "");
+            str = str.Replace(",", ".");
+            return Convert.ToDecimal(str);
         }
     }
 }

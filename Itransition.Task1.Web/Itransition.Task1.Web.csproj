@@ -176,7 +176,6 @@
     <Compile Include="Infrastructure\Validators\RegisterModelValidator.cs" />
     <Compile Include="Infrastructure\Validators\ForgotPasswordModelValidator.cs" />
     <Compile Include="Infrastructure\Validators\ResetPasswordModelValidator.cs" />
-    <Compile Include="Models\GlobalDataModel.cs" />
     <Compile Include="Models\LoginModel.cs" />
     <Compile Include="Models\PutMoneyModel.cs" />
     <Compile Include="Models\RegisterModel.cs" />
@@ -201,6 +200,7 @@
     <Content Include="Content\css\bootstrap-theme.min.css" />
     <Content Include="Content\css\bootstrap.css" />
     <Content Include="Content\css\bootstrap.min.css" />
+    <Content Include="Content\css\bootstrap4.min.css" />
     <Content Include="Content\css\dropzone.css" />
     <Content Include="Content\css\dropzone.min.css" />
     <Content Include="Content\css\materialize.css" />

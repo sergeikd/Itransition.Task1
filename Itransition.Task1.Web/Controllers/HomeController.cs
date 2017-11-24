@@ -28,45 +28,21 @@ namespace Itransition.Task1.Web.Controllers
         }
 
         [HttpPost]
-        public JsonResult GetGlobalData()
+        public JsonResult GetData()
         {
-            var globalData = _bankAccountService.GetInitGlobalData(User.Identity.Name);
-            var globalDataModel = new GlobalDataModel
-            {
-                UserAmount = globalData.Amount,
-                OthersAccounts = globalData.OthersAccountNumbers,
-                Transactions = globalData.Transactions,
-                ErrorMsg = globalData.ErrorMsg
-            };
-
-            return Json(globalDataModel);
+            return Json(_bankAccountService.GetGlobalData(User.Identity.Name));
         }
         [HttpPost]
         public JsonResult Put(string put)
         {
-            var globalData = _bankAccountService.PutMoney(User.Identity.Name, put);
-            var globalDataModel = new GlobalDataModel
-            {
-                UserAmount = globalData.Amount,
-                OthersAccounts = globalData.OthersAccountNumbers,
-                Transactions = globalData.Transactions,
-                ErrorMsg = globalData.ErrorMsg
-            };
-            return Json(globalDataModel);
+            return Json(_bankAccountService.PutMoney(User.Identity.Name, put));
         }
 
         [HttpPost]
         public JsonResult Transfer(string transfer, string recipient)
         {
-            var globalData = _bankAccountService.TransferMoney(User.Identity.Name, transfer, recipient);
-            var globalDataModel = new GlobalDataModel
-            {
-                UserAmount = globalData.Amount,
-                OthersAccounts = globalData.OthersAccountNumbers,
-                Transactions = globalData.Transactions,
-                ErrorMsg = globalData.ErrorMsg
-            };
-            return Json(globalDataModel);
+            var aaa = _bankAccountService.TransferMoney(User.Identity.Name, transfer, recipient);
+            return Json(_bankAccountService.TransferMoney(User.Identity.Name, transfer, recipient));
         }
     }
 }

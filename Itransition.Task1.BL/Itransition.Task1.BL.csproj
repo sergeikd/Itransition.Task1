@@ -49,7 +49,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DtoModels\GlobalDataDto.cs" />
-    <Compile Include="DtoModels\TransactionDto.cs" />
     <Compile Include="Interfaces\IBankAccountService.cs" />
     <Compile Include="Interfaces\IPasswordService.cs" />
     <Compile Include="Interfaces\IUserService.cs" />

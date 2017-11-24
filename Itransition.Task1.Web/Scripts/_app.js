@@ -12,17 +12,15 @@
 
     function transaction(id, date, sender, amount, recipient) {
         this.Id = id;
-        this.Date = JSON.parse(date, function() {
-            return new Date(date);
-        });
-	    this.Sender = sender;
+        this.Date = date;
+        this.Sender = sender;
 		this.Amount = amount;
 		this.Recipient = recipient;
 	};
-    self.loadInitData = function () {
+    self.loadData = function () {
         $.ajax({
-            url: '/Home/GetGlobalData',
-            type: 'POST',
+            url: "/Home/GetData",
+            type: "POST",
             contentType: 'application/x-www-form-urlencoded'
         }).success(self.successHandler).error(self.errorHandler);
     };
@@ -33,12 +31,21 @@
         };
 
         $.ajax({
-            url: '/Home/Put',
-            type: 'POST',
+            url: "/Home/Put",
+            type: "POST",
             data: data,
             contentType: 'application/x-www-form-urlencoded'
         })
-            .success(self.successHandler)
+            .success(function (data) {
+                if (data) {
+                    $("#ActionFailText").after(data);
+                    $("#ActionFailModal").modal("show");
+                }
+                else {
+                    $("#ajaxOkModal").modal("show");
+                    self.loadData();
+                }
+            })
             .error(self.errorHandler);
     };
     self.transferMoney = function (transferValue) {
@@ -48,39 +55,53 @@
         };
 
         $.ajax({
-            url: '/Home/Transfer',
-            type: 'POST',
-            data: data,
-            contentType: 'application/x-www-form-urlencoded'
-        })
-            .success(self.successHandler)
+                url: "/Home/Transfer",
+                type: "POST",
+                data: data,
+                contentType: "application/x-www-form-urlencoded"
+            })
+            .success(function (data) {
+                if (data) {
+                    $("#ActionFailText").after(data);
+                    $("#ActionFailModal").modal("show");
+                }
+                else {
+                    $("#ajaxOkModal").modal("show");
+                    self.loadData();
+                }
+            })
             .error(self.errorHandler);
     };
 
     self.successHandler = function (data) {
-        self.appData.amount(data.UserAmount);
+        self.appData.amount(data.Amount);
         self.appData.othersAccounts(data.OthersAccounts);
-        self.appData.transactions(data.Transactions);
-        var aaa = data.Transactions;
-        var bbb = self.appData.transactions;
         self.appData.put("");
         self.appData.transfer("");
         self.appData.selectedAccount("");
+        var arrTranscts = data.Transactions.map(function (item) {
+            item.Date = new Date(parseFloat(item.Date.replace("/Date(", "").replace(")/", ""))); //change Date format from /Date(012345679)/ to normal
+            return item;
+        });
+        self.appData.transactions(arrTranscts);
+
     };
     self.errorHandler = function () {
-        alert("Error!");
+        $("#ajaxErrorModal").modal("show");
     };
 };
 var appViewModel = new AppViewModel();
 ko.applyBindings(appViewModel);
 
-appViewModel.loadInitData();
+appViewModel.loadData();
 
 //*** PUT MONEY action handler ***
 var putBtn = document.getElementById("putBtn");
 putBtn.addEventListener("click", function (e) {
     var putValue = appViewModel.appData.put();
-    if (putValue == undefined || putValue === "") {
+    if (putValue === undefined || putValue === "") {
+        $("#ActionFailText").text("").append("The input field has an incorrect value");
+        $("#ActionFailModal").modal("show");
         return;
     }
     appViewModel.putMoney(putValue);
@@ -91,11 +112,16 @@ putBtn.addEventListener("click", function (e) {
 var putBtn = document.getElementById("transferBtn");
 putBtn.addEventListener("click", function (e) {
     var selectedAccount = appViewModel.appData.selectedAccount();
-    if (selectedAccount == undefined || selectedAccount.length < 16) {
+    if (selectedAccount === undefined || selectedAccount.length < 16) {
+        $("#ActionFailText").text("").append("An account wasn't choosen in the drop-down list");
+        $("#ActionFailModal").modal("show");
         return;
     }
     var transferValue = appViewModel.appData.transfer();
-    if (transferValue == undefined || transferValue === "") {
+    if (transferValue === undefined || transferValue === "") {
+        
+        $("#ActionFailText").text("").append("The input field has an incorrect value");
+        $("#ActionFailModal").modal("show");
         return;
     }
     appViewModel.transferMoney(transferValue);
