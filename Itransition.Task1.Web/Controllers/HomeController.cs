@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Web.Mvc;
 using Itransition.Task1.BL.Interfaces;
-using Itransition.Task1.Web.Models;
 
 namespace Itransition.Task1.Web.Controllers
 {
@@ -22,15 +19,10 @@ namespace Itransition.Task1.Web.Controllers
             return View();
         }
 
-        public ActionResult Default()
-        {
-            return View();
-        }
-
         [HttpPost]
-        public JsonResult GetData()
+        public JsonResult GetData(int pageSize, int currentPage)
         {
-            return Json(_bankAccountService.GetGlobalData(User.Identity.Name));
+            return Json(_bankAccountService.GetGlobalData(User.Identity.Name, pageSize, currentPage));
         }
         [HttpPost]
         public JsonResult Put(string put)
@@ -41,7 +33,6 @@ namespace Itransition.Task1.Web.Controllers
         [HttpPost]
         public JsonResult Transfer(string transfer, string recipient)
         {
-            var aaa = _bankAccountService.TransferMoney(User.Identity.Name, transfer, recipient);
             return Json(_bankAccountService.TransferMoney(User.Identity.Name, transfer, recipient));
         }
     }

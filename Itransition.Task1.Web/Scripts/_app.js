@@ -1,4 +1,6 @@
-﻿function AppViewModel() {
+﻿//$(".js-basic-example").DataTable();
+
+function AppViewModel() {
     var self = this;
     
     self.appData = {
@@ -7,7 +9,17 @@
         transfer: ko.observable(""),
         othersAccounts: ko.observableArray(),
         selectedAccount: ko.observable(),
-        transactions: ko.observableArray()
+        transactions: ko.observableArray(),
+        pageCount: ko.observable(0),
+        currentPage: ko.observable(1),
+        pageSize: ko.observable(5)
+
+    };
+
+    self.appData.pageSizeChanged = function (obj, event) {
+        if (event.originalEvent) { //user made a change
+            self.loadData();
+        }
     };
 
     function transaction(id, date, sender, amount, recipient) {
@@ -18,9 +30,14 @@
 		this.Recipient = recipient;
 	};
     self.loadData = function () {
+        var dataToServer = {
+            pageSize: self.appData.pageSize(),
+            currentPage: self.appData.currentPage()
+        };
         $.ajax({
             url: "/Home/GetData",
             type: "POST",
+            data: dataToServer,
             contentType: 'application/x-www-form-urlencoded'
         }).success(self.successHandler).error(self.errorHandler);
     };
@@ -79,7 +96,10 @@
         self.appData.put("");
         self.appData.transfer("");
         self.appData.selectedAccount("");
-        var arrTranscts = data.Transactions.map(function (item) {
+        self.appData.pageCount(data.Transactions.PageCount);
+        self.appData.currentPage(data.Transactions.CurrentPage);
+        self.appData.pageSize(data.Transactions.PageSize);
+        var arrTranscts = data.Transactions.Results.map(function (item) {
             item.Date = new Date(parseFloat(item.Date.replace("/Date(", "").replace(")/", ""))); //change Date format from /Date(012345679)/ to normal
             return item;
         });
@@ -112,7 +132,7 @@ putBtn.addEventListener("click", function (e) {
 var putBtn = document.getElementById("transferBtn");
 putBtn.addEventListener("click", function (e) {
     var selectedAccount = appViewModel.appData.selectedAccount();
-    if (selectedAccount === undefined || selectedAccount.length < 16) {
+    if (selectedAccount === undefined || selectedAccount) {
         $("#ActionFailText").text("").append("An account wasn't choosen in the drop-down list");
         $("#ActionFailModal").modal("show");
         return;

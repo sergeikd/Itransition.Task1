@@ -191,8 +191,6 @@
     <Content Include="Content\css\basic.min.css" />
     <Content Include="Content\css\bootstrap-colorpicker.css" />
     <Content Include="Content\css\bootstrap-colorpicker.min.css" />
-    <Content Include="Content\css\bootstrap-select.css" />
-    <Content Include="Content\css\bootstrap-select.min.css" />
     <Content Include="Content\css\bootstrap-spinner.css" />
     <Content Include="Content\css\bootstrap-spinner.min.css" />
     <Content Include="Content\css\bootstrap-tagsinput.css" />
@@ -200,13 +198,13 @@
     <Content Include="Content\css\bootstrap-theme.min.css" />
     <Content Include="Content\css\bootstrap.css" />
     <Content Include="Content\css\bootstrap.min.css" />
-    <Content Include="Content\css\bootstrap4.min.css" />
     <Content Include="Content\css\dropzone.css" />
     <Content Include="Content\css\dropzone.min.css" />
     <Content Include="Content\css\materialize.css" />
     <Content Include="Content\css\md-preloader.css" />
     <Content Include="Content\css\md-preloader.min.css" />
     <Content Include="Content\css\multi-select.css" />
+    <Content Include="Content\css\_my.css" />
     <Content Include="Content\css\nouislider.min.css" />
     <Content Include="Content\css\style.css" />
     <Content Include="Content\css\style.min.css" />
@@ -217,7 +215,7 @@
     <Content Include="Content\css\waves.min.css" />
     <Content Include="Content\favicon.ico" />
     <Content Include="favicon.ico" />
-    <Content Include="fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="fonts DELETEfromTHERE\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Scripts\additional-methods.js" />
     <Content Include="Scripts\admin.js" />
@@ -225,8 +223,6 @@
     <Content Include="Scripts\_app.js" />
     <Content Include="Scripts\bootstrap-colorpicker.js" />
     <Content Include="Scripts\bootstrap-colorpicker.min.js" />
-    <Content Include="Scripts\bootstrap-select.js" />
-    <Content Include="Scripts\bootstrap-select.min.js" />
     <Content Include="Scripts\bootstrap-tagsinput.js" />
     <Content Include="Scripts\bootstrap-tagsinput.min.js" />
     <Content Include="Scripts\bootstrap.js" />
@@ -238,7 +234,6 @@
     <Content Include="Content\css\bootstrap-colorpicker.min.css.map" />
     <Content Include="Content\css\jquery.min.map" />
     <Content Include="Content\css\bootstrap-spinner.css.map" />
-    <Content Include="Content\css\bootstrap-select.css.map" />
     <None Include="Properties\PublishProfiles\task1 - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\Task1.pubxml" />
     <Content Include="Scripts\demo.js" />
@@ -301,20 +296,19 @@
     <Content Include="Views\Password\ResetMsg.cshtml" />
     <Content Include="Views\Home\Default.cshtml" />
     <Content Include="Scripts\waves.min.js.map" />
-    <Content Include="Scripts\bootstrap-select.js.map" />
     <Content Include="Scripts\jquery.min.map" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="fonts DELETEfromTHERE\glyphicons-halflings-regular.woff" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="fonts DELETEfromTHERE\glyphicons-halflings-regular.ttf" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="fonts DELETEfromTHERE\glyphicons-halflings-regular.eot" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
