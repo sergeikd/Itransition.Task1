@@ -114,12 +114,12 @@ namespace Itransition.Task1.BL.Services
         //    globalData.Transactions = transactionDtoList;
         //    return globalData;
         //}
-        public GlobalDataDto GetGlobalData(string email, int pageSize, int currentPage)
+        public GlobalDataDto GetGlobalData(string email, int pageSize, int currentPage, string sort)
         {
             var ownAccount = _userRepository.GetSingle(u => u.Email == email).BankAccount;
             var othersAccounts = GetAllBankAccounts().Where(x => x.AccountNumber != ownAccount.AccountNumber).Select(a => a.AccountNumber).ToList(); //Remove own account from the list
             //var transactions = _transactionRepository.GetAll().Where(t => t.Sender == ownAccount.AccountNumber).ToList();
-            var transactions = _transactionRepository.GetPagedTransactions(pageSize, currentPage, null, 1, null); //TODO fill here with actual arguments
+            var transactions = _transactionRepository.GetPagedTransactions(pageSize, currentPage, null, sort, null); //TODO fill here with actual arguments
             var globalData = new GlobalDataDto
             {
                 Amount = ownAccount.Amount,

@@ -20,9 +20,9 @@ namespace Itransition.Task1.Web.Controllers
         }
 
         [HttpPost]
-        public JsonResult GetData(int pageSize, int currentPage)
+        public JsonResult GetData(int pageSize, int currentPage, string sort)
         {
-            return Json(_bankAccountService.GetGlobalData(User.Identity.Name, pageSize, currentPage));
+            return Json(_bankAccountService.GetGlobalData(User.Identity.Name, pageSize, currentPage, sort));
         }
         [HttpPost]
         public JsonResult Put(string put)

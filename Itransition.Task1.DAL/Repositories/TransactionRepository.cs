@@ -13,7 +13,7 @@ namespace Itransition.Task1.DAL.Repositories
             _context = context;
         }
 
-        public Page<Transaction> GetPagedTransactions(int pageSize, int currentPage, string searchText, int sortBy, string jobTitle)
+        public Page<Transaction> GetPagedTransactions(int pageSize, int currentPage, string searchText, string sortBy, string jobTitle)
         {
             var filters = new Filters<Transaction>();
             //filters.Add(!string.IsNullOrEmpty(searchText), x=>x.LoginID.Contains(searchText));
@@ -26,11 +26,11 @@ namespace Itransition.Task1.DAL.Repositories
             //sorts.Add(sortBy == 1, x=>x.BusinessEntityID);
             //sorts.Add(sortBy == 2, x=>x.LoginID);
             //sorts.Add(sortBy == 3, x=>x.JobTitle);
-            sorts.Add(sortBy == 1, x => x.Id);
-            sorts.Add(sortBy == 2, x => x.Date);
-            sorts.Add(sortBy == 3, x => x.Sender);
-            sorts.Add(sortBy == 4, x => x.Recipient);
-            sorts.Add(sortBy == 5, x => x.Amount);
+            sorts.Add(sortBy == "Id", x => x.Id);
+            sorts.Add(sortBy == "Date", x => x.Date);
+            sorts.Add(sortBy == "Sender", x => x.Sender);
+            sorts.Add(sortBy == "Recipient", x => x.Recipient);
+            sorts.Add(sortBy == "Amount", x => x.Amount);
 
             var pagedTransactions = _context.Transactions.Paginate(currentPage, pageSize, sorts, filters);
             return pagedTransactions;

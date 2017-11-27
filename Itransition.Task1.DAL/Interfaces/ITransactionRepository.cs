@@ -5,6 +5,6 @@ namespace Itransition.Task1.DAL.Interfaces
 {
     public interface ITransactionRepository : IRepository<Transaction>
     {
-        Page<Transaction> GetPagedTransactions(int pageSize, int currentPage, string searchText, int sortBy, string jobTitle);
+        Page<Transaction> GetPagedTransactions(int pageSize, int currentPage, string searchText, string sortBy, string jobTitle);
     }
 }
