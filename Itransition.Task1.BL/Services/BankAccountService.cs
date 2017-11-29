@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using Itransition.Task1.BL.DtoModels;
 using Itransition.Task1.BL.Interfaces;
-using Itransition.Task1.DAL.Interfaces;
+using Itransition.Task1.DALMongo.Interfaces;
 using Itransition.Task1.Domain;
 
 namespace Itransition.Task1.BL.Services 
@@ -27,6 +26,7 @@ namespace Itransition.Task1.BL.Services
 
         public IList<BankAccount> GetAllBankAccounts()
         {
+            var aaa = _bankAccountRepository.GetAll();
             return _bankAccountRepository.GetAll().ToList();
         }
 
@@ -98,34 +98,19 @@ namespace Itransition.Task1.BL.Services
             _transactionRepository.Add(transaction);
             return result;
         }
-        //public GlobalDataDto GetGlobalData(BankAccount ownAccount)
-        //{
-        //    var globalData = new GlobalDataDto();
-        //    var transactionDtoList = new List<TransactionDto>();
-        //    var othersAccounts = GetAllBankAccounts().Where(x => x.AccountNumber != ownAccount.AccountNumber).Select(a => a.AccountNumber).ToList(); //Remove own account from the list
-        //    var transactions = _transactionRepository.GetAll().Where(t => t.Sender == ownAccount.AccountNumber).ToList();
-        //    foreach (var transaction in transactions)
-        //    {
-        //        transactionDtoList.Add(new TransactionDto { Id = transaction.Id, Amount = transaction.Amount, Sender = transaction.Sender, Recipient = transaction.Recipient, Date = transaction.Date });
-        //    }
-        //    globalData.Amount = ownAccount.Amount;
-        //    globalData.OwnAccountNumber = ownAccount.AccountNumber;
-        //    globalData.OthersAccountNumbers = othersAccounts;
-        //    globalData.Transactions = transactionDtoList;
-        //    return globalData;
-        //}
+
         public GlobalDataDto GetGlobalData(string email, int pageSize, int currentPage, string sort)
         {
             var ownAccount = _userRepository.GetSingle(u => u.Email == email).BankAccount;
             var othersAccounts = GetAllBankAccounts().Where(x => x.AccountNumber != ownAccount.AccountNumber).Select(a => a.AccountNumber).ToList(); //Remove own account from the list
-            //var transactions = _transactionRepository.GetAll().Where(t => t.Sender == ownAccount.AccountNumber).ToList();
-            var transactions = _transactionRepository.GetPagedTransactions(pageSize, currentPage, null, sort, null); //TODO fill here with actual arguments
+
+            //var transactions = _transactionRepository.GetPagedTransactions(pageSize, currentPage, null, sort, null); //TODO fill here with actual arguments
             var globalData = new GlobalDataDto
             {
                 Amount = ownAccount.Amount,
                 OwnAccountNumber = ownAccount.AccountNumber,
                 OthersAccounts = othersAccounts,
-                Transactions = transactions
+                //Transactions = transactions
             };
             return globalData;
         }

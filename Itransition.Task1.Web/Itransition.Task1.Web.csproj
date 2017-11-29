@@ -318,9 +318,9 @@
       <Project>{8add88d6-2b86-4a9a-bfe8-c99bb9d830be}</Project>
       <Name>Itransition.Task1.BL</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Itransition.Task1.DAL\Itransition.Task1.DAL.csproj">
-      <Project>{2f4ee577-e9d4-402d-9afa-88d42c4e5b1c}</Project>
-      <Name>Itransition.Task1.DAL</Name>
+    <ProjectReference Include="..\Itransition.Task1.DALMongo\Itransition.Task1.DALMongo.csproj">
+      <Project>{a76a74ff-35ce-4da6-9cdd-fd7150fc7534}</Project>
+      <Name>Itransition.Task1.DALMongo</Name>
     </ProjectReference>
     <ProjectReference Include="..\Itransition.Task1.Domain\Itransition.Task1.Domain.csproj">
       <Project>{bdab250f-5b2e-46cb-af3b-32b5ad7306ac}</Project>

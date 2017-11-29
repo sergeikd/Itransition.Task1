@@ -1,5 +1,5 @@
 ﻿using Itransition.Task1.BL.Interfaces;
-using Itransition.Task1.DAL.Interfaces;
+using Itransition.Task1.DALMongo.Interfaces;
 using Itransition.Task1.Domain;
 using System;
 using System.Collections.Generic;
@@ -32,7 +32,7 @@ namespace Itransition.Task1.BL.Services
 
         public AppUser GetUserById(int id)
         {
-            return _userRepository.GetSingle(u => u.Id == id);
+            return _userRepository.GetSingle(u => u.Id == id.ToString());
         }
 
         public void RegisterUser(AppUser user)

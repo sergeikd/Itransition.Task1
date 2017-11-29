@@ -5,7 +5,8 @@ using System.Web.Routing;
 using Castle.Windsor;
 using Castle.Windsor.Installer;
 using FluentValidation.Mvc;
-using Itransition.Task1.DAL;
+using Itransition.Task1.DALMongo;
+//using Itransition.Task1.DAL;
 using Itransition.Task1.Web.Infrastructure.CastleWindsor;
 
 namespace Itransition.Task1.Web
@@ -17,6 +18,7 @@ namespace Itransition.Task1.Web
         protected void Application_Start()
         {
             //Database.SetInitializer(new DbInitializer());
+            new DbInitializer().Initialize();
             AreaRegistration.RegisterAllAreas();
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);

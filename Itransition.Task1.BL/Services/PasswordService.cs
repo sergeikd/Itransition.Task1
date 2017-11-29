@@ -4,7 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Mail;
 using Itransition.Task1.BL.Interfaces;
-using Itransition.Task1.DAL.Interfaces;
+using Itransition.Task1.DALMongo.Interfaces;
 using Itransition.Task1.Domain;
 
 namespace Itransition.Task1.BL.Services
