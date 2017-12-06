@@ -1,0 +1,87 @@
+﻿@model Itransition.Task1.WebCore.Models.RegisterModel
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <title>Sign Up</title>
+
+    <!-- Favicon-->
+    <link rel="icon" href="~/favicon.ico" type="image/x-icon">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&subset=latin,cyrillic-ext" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" type="text/css">
+    <link href="~/css/bootstrap.css" rel="stylesheet">
+    <link href="~/css/waves.css" rel="stylesheet" />
+    <link href="~/css/animate.css" rel="stylesheet" />
+    <link href="~/css/style.css" rel="stylesheet">
+</head>
+
+<body class="signup-page">
+<div class="signup-box">
+    <div class="card">
+        <div class="body">
+            @using (Html.BeginForm(null, null, FormMethod.Post, new { id = "sign_up" }))
+            {
+                @Html.AntiForgeryToken()
+
+                <div class="msg">Register a new membership</div>
+                <div class="input-group">
+                    <span class="input-group-addon">
+                        <i class="material-icons">email</i>
+                    </span>
+                    <div class="form-line">
+                        @Html.EditorFor(m => m.Email, new { htmlAttributes = new { @class = "form-control", type = "email", name = "email", placeholder = "Email", autofocus = "autofocus" } })
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <span class="input-group-addon">
+                        <i class="material-icons">lock</i>
+                    </span>
+                    <div class="form-line">
+                        @Html.EditorFor(model => model.Password, new {htmlAttributes = new {@class = "form-control", name = "password", placeholder = "Password", minlength = "3"}})
+                    </div>
+                </div>
+                <div class="input-group">
+                    <span class="input-group-addon">
+                        <i class="material-icons">lock</i>
+                    </span>
+                    <div class="form-line">
+                        @Html.EditorFor(model => model.Confirm, new {htmlAttributes = new {@class = "form-control", name = "confirm", placeholder = "Confirm Password", minlength = "3"}})
+                    </div>
+                </div>
+
+
+                <button class="btn btn-block btn-lg bg-pink waves-effect" type="submit">SIGN UP</button>
+
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="text-danger">
+                            @Html.ValidationSummary(true)
+                        </div>
+                    </div>
+                </div>
+
+                <div class="m-t-25 m-b--5 align-center">
+                    <a>@Html.ActionLink("You already have a membership?", "SignIn", "Auth")</a>
+                </div>
+            }
+
+        </div>
+    </div>
+</div>
+
+    <script src="~/js/jquery.min.js"></script>
+    <script src="~/js/bootstrap.min.js"></script>
+    <script src="~/js/waves.min.js"></script>
+    <script src="~/js/jquery.validate.min.js"></script>
+    <script src="~/js/sign-up.js"></script>
+</body>
+</html>

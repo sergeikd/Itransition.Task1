@@ -12,7 +12,7 @@ namespace Itransition.Task1.DALMongo
 
         public AppDbContext()
         {
-            var connectionString = ConfigurationManager.ConnectionStrings["MongoDb"].ConnectionString;
+            const string connectionString = "mongodb://localhost:27017/itransitiontask1";
             var connection = new MongoUrlBuilder(connectionString);
             var client = new MongoClient(connectionString);
             _connection = connection;

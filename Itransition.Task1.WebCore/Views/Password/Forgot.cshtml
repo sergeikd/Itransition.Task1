@@ -1,0 +1,63 @@
+﻿@model Itransition.Task1.WebCore.Models.ForgotPasswordModel
+
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <title>Sign In</title>
+    <link rel="icon" href="~/favicon.ico" type="image/x-icon">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&subset=latin,cyrillic-ext" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" type="text/css">
+    <link href="~/css/bootstrap.css" rel="stylesheet">
+    <link href="~/css/waves.css" rel="stylesheet" />
+    <link href="~/css/animate.css" rel="stylesheet" />
+    <link href="~/css/style.css" rel="stylesheet">
+</head>
+<body class="fp-page">
+    <div class="fp-box">
+        <div class="card">
+            <div class="body">
+                @using (Html.BeginForm(null, null, FormMethod.Post, new { id = "forgot_password" }))
+                {
+                    @Html.AntiForgeryToken()
+                    <div class="msg">
+                        Enter your email address that you used to register. We'll send you an email with a
+                        link to reset your password.
+                    </div>
+                     <div class="input-group">
+                        <span class="input-group-addon">
+                            <i class="material-icons">email</i>
+                        </span>
+                        <div class="form-line">
+                            @Html.EditorFor(m => m.Email, new { htmlAttributes = new { @class = "form-control", type = "email", name = "email", placeholder = "Email", autofocus = "autofocus" } })
+                        </div>
+                    </div>
+                    <button class="btn btn-block btn-lg bg-pink waves-effect" type="submit">RESET MY PASSWORD</button>                    
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div class="text-danger">
+                                @Html.ValidationMessageFor(model => model.Email)
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row m-t-20 m-b--5 align-center">
+                        <a>@Html.ActionLink("Sign In!", "SignIn", "Auth")</a>
+                    </div>
+                }
+
+            </div>
+        </div>
+    </div>
+<script src="~/js/jquery.min.js"></script>
+<script src="~/js/jquery.validate.min.js"></script>
+<script src="~/js/sweetalert.min.js"></script>
+<script src="~/js/waves.min.js"></script>
+<script src="~/js/form-validation.js"></script>
+<script src="~/js/forgot-password.js"></script>
+</body>
+</html>

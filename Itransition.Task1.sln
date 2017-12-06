@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Itransition.Task1.BL", "Itr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Itransition.Task1.DALMongo", "Itransition.Task1.DALMongo\Itransition.Task1.DALMongo.csproj", "{A76A74FF-35CE-4DA6-9CDD-FD7150FC7534}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Itransition.Task1.WebCore", "Itransition.Task1.WebCore\Itransition.Task1.WebCore.csproj", "{EC1CBECB-9A81-44DB-80E4-6D684AFE8CE8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{A76A74FF-35CE-4DA6-9CDD-FD7150FC7534}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A76A74FF-35CE-4DA6-9CDD-FD7150FC7534}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A76A74FF-35CE-4DA6-9CDD-FD7150FC7534}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EC1CBECB-9A81-44DB-80E4-6D684AFE8CE8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EC1CBECB-9A81-44DB-80E4-6D684AFE8CE8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EC1CBECB-9A81-44DB-80E4-6D684AFE8CE8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EC1CBECB-9A81-44DB-80E4-6D684AFE8CE8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

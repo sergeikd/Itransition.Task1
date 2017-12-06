@@ -1,0 +1,35 @@
+﻿using System;
+using System.Linq;
+using FluentValidation;
+using Itransition.Task1.BL.Interfaces;
+using Itransition.Task1.WebCore.Models;
+
+namespace Itransition.Task1.WebCore.Validators
+{
+    public class RegisterModelValidator : AbstractValidator<RegisterModel>
+    {
+        private readonly IUserService _userService;
+
+        public RegisterModelValidator(IUserService userService)
+        {
+            if (userService == null) throw new ArgumentNullException();
+            _userService = userService;
+
+            RuleFor(u => u.Email).NotEmpty().EmailAddress();
+            RuleFor(u => u.Password).NotEmpty();
+            RuleFor(u => u.Confirm).NotEmpty();
+            RuleFor(u => u).Must(CheckPasswords).WithMessage("Password and Confirm Password are not equal");
+            RuleFor(u => u).Must(IsExist).WithMessage("User with the same name already exists");
+        }
+
+        private static bool CheckPasswords(RegisterModel registerModel)
+        {
+            return registerModel.Password == registerModel.Confirm;
+        }
+        private bool IsExist(RegisterModel registerModel)
+        {
+            var user = _userService.GetAllUsers().FirstOrDefault(u => u.Email == registerModel.Email);
+            return user == null;
+        }
+    }
+}

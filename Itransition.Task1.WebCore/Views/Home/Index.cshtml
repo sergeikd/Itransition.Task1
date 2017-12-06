@@ -1,0 +1,276 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <title>Main Page</title>
+    <!-- Favicon-->
+    <link rel="icon" href="~/favicon.ico" type="image/x-icon">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&subset=latin,cyrillic-ext" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" type="text/css">
+
+    <!-- Bootstrap Core Css -->
+    <link href="~/css/bootstrap.css" rel="stylesheet">
+    <link href="~/css/waves.css" rel="stylesheet" />
+    <link href="~/css/animate.css" rel="stylesheet" />
+    <link href="~/css/bootstrap-colorpicker.css" rel="stylesheet" />
+    <link href="~/css/style.css" rel="stylesheet">
+</head>
+<body>
+
+<!-- Tabs With Icon Title -->
+<div class="row clearfix">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="card">
+            <div class="header">
+                <h2>
+                    TASK1 APPLICATION
+                </h2>
+
+                <ul class="header-dropdown m-r--5">
+                    <li class="dropdown">
+                        <span href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                            <button class="btn bg-cyan btn-lg btn-block waves-effect" type="button">
+                                Amount:
+                                <span class="badge ">
+                                    <span data-bind="text: appData.amount"></span>
+                                </span>
+                                <span>&nbsp; User: </span>
+                                <span class="badge ">@User.Identity.Name</span>
+                            </button>
+                        </span>
+                        <ul class="dropdown-menu pull-right">
+                            <li>@Html.ActionLink("Sign out", "Logoff", "Auth")</li>
+                            <li>@Html.ActionLink("Change password", "Change", "Password")</li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            <div class="body">
+                <!-- Nav tabs -->
+                <ul class="nav nav-tabs" role="tablist">
+                    <li role="presentation" class="active">
+                        <a href="#home_with_icon_title" data-toggle="tab">
+                            <i class="material-icons">vertical_align_bottom</i> PUT
+                        </a>
+                    </li>
+                    <li role="presentation">
+                        <a href="#profile_with_icon_title" data-toggle="tab">
+                            <i class="material-icons">swap_horiz</i> TRANSFER
+                        </a>
+                    </li>
+                    <li role="presentation">
+                        <a href="#messages_with_icon_title" data-toggle="tab">
+                            <i class="material-icons">list</i> TRANSACTIONS
+                        </a>
+                    </li>
+                </ul>
+                <!-- Tab panes -->
+                <div class="tab-content">
+                    <div role="tabpanel" class="tab-pane fade in active" id="home_with_icon_title">
+                        <!-- Masked Input -->
+                        <div class="row clearfix">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <div class="">
+                                    <div class="body">
+                                        <div class="demo-masked-input">
+                                            <div class="col-md-3">
+                                                <b>Put money to your account:</b>
+                                                <div class="input-group">
+                                                    <span class="input-group-addon">
+                                                        <i class="material-icons">attach_money</i>
+                                                    </span>
+                                                    <div class="form-line">
+                                                        <input type="text" class="form-control money-dollar" data-bind="textInput: appData.put" placeholder="Ex: 99,99">
+                                                    </div>
+                                                </div>
+                                                <p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <p><button id="putBtn">Put money</button>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- #END# Masked Input -->
+                    </div>
+
+                    <div role="tabpanel" class="tab-pane fade" id="profile_with_icon_title">
+                        <div class="row clearfix">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <div class="">
+                                    <div class="body">
+                                        <div class="demo-masked-input">
+                                            <div class="col-md-3">
+                                                <b>Input a sum to transfer:</b>
+                                                <div class="input-group">
+                                                    <span class="input-group-addon">
+                                                        <i class="material-icons">attach_money</i>
+                                                    </span>
+                                                    <div class="form-line">
+                                                        <input type="text" class="form-control money-dollar" data-bind="textInput: appData.transfer" placeholder="Ex: 99,99">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="input-group">
+                                                    <p>
+                                                        <b>Available accounts for transfer:</b>
+                                                        <select class="form-control" data-bind="options: appData.othersAccounts,
+                                                               value: appData.selectedAccount,
+                                                               optionsCaption: 'Choose account'"></select>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <p><button id="transferBtn">Transfer money</button>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div role="tabpanel" class="tab-pane fade" id="messages_with_icon_title">
+                        <div class="row clearfix">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <div class="">
+                                    <div class="body">
+                                        <div class="col-md-3 ">
+                                            <b>Transactions history:</b>
+                                        </div>
+
+                                        <div class="col-sm-1 pull-right form-inline">
+                                            <select class="form-control" data-bind="value: appData.pageSize, event:{ change: appData.pageSizeChanged}">
+                                                <option value=5>5</option>
+                                                <option value=10>10</option>
+                                                <option value=25>25</option>
+                                                <option value=50>50</option>
+                                            </select>
+                                        </div>                                        
+                                        <div class="col-md-1 pull-right">
+                                            <b>Per page:</b>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <table class="table table-bordered table-striped table-hover ">
+                            <thead><tr>
+                                <th data-bind="click: sorting">Id</th>
+                                <th data-bind="click: sorting">Date</th>
+                                <th data-bind="click: sorting">Sender</th>
+                                <th data-bind="click: sorting">Recipient</th>
+                                <th data-bind="click: sorting">Amount</th>
+                            </tr></thead>
+                            <tbody data-bind="foreach: { data: appData.transactions, as: 'transaction'}">
+                            <tr>
+                                <td>
+                                    <p data-bind="text: transaction.Id">-</p>
+                                </td>
+                                <td>
+                                    <p data-bind="text: transaction.Date">-</p>
+                                </td>
+                                <td>
+                                    <p data-bind="text: transaction.Sender">-</p>
+                                </td>
+                                <td>
+                                    <p data-bind="text: transaction.Recipient">-</p>
+                                </td>
+                                <td>
+                                    <p data-bind="text: transaction.Amount">-</p>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        <div class="text-center">
+                            <nav aria-label="Page navigation">
+                                <ul class="pagination" data-bind="foreach: new Array(appData.pageCount())">
+                                    <li data-bind="css: { active: $index()+1 == $parent.appData.currentPage() }"><a class="" data-bind="text: $index()+1, click: function(){$parent.appData.currentPage($index()+1);$parent.loadData();}"></a></li>
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- #END# Tabs With Icon Title -->
+
+<!-- Modal Dialogs ====================================================================================================================== -->
+<!-- Ajax Error Message -->
+<div class="modal fade" id="ajaxErrorModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content  modal-col-red">
+            <div class="modal-header">
+                <h4 class="modal-title" >Oops!</h4>
+            </div>
+            <div class="modal-body">
+                Something wrong happens during exchange data with server :( <br/>
+                Please refresh web-page and try your action again.
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-link waves-effect" data-dismiss="modal">CLOSE</button>
+            </div>
+        </div>
+    </div>
+</div>
+    
+<!-- Ajax OK Message -->
+<div class="modal fade" id="ajaxOkModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content  modal-col-cyan">
+            <div class="modal-header">
+                <h4 class="modal-title">Well done!</h4>
+            </div>
+            <div class="modal-body">
+                The operation was successful!
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-link waves-effect" data-dismiss="modal">CLOSE</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Action Fail Message -->
+<div class="modal fade" id="ActionFailModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content  modal-col-red">
+            <div class="modal-header">
+                <h4 class="modal-title">Oops!</h4>
+            </div>
+            <div class="modal-body" >
+                We have got an error: <br/>
+                <a style="text-decoration: none; color: #fff !important" id="ActionFailText"></a>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-link waves-effect" data-dismiss="modal">CLOSE</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/js/jquery.min.js"></script>
+<script src="~/js/knockout-3.4.2.debug.js"></script>
+<script src="~/js/bootstrap.min.js"></script>
+<script src="~/js/bootstrap-colorpicker.min.js"></script>
+<script src="~/js/jquery.inputmask.bundle.js"></script>
+<script src="~/js/waves.min.js"></script>
+<script src="~/js/admin.js"></script>
+<script src="~/js/advanced-form-elements_MY.js"></script>
+<script src="~/js/_app.js"></script>
+
+</body>
+</html>
